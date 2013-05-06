@@ -10,6 +10,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
+import pl.edu.agh.sigmobapp.gui.SigmobGUI;
 import pl.edu.agh.sigmobapp.json.Answers;
 import pl.edu.agh.sigmobapp.json.SurveyAnswer;
 import pl.edu.agh.sigmobapp.json.Task;
@@ -24,11 +25,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -53,19 +57,53 @@ public class MainActivity extends Activity {
 	
 	private TaskShort shortTask;
 	
+	private EditText inputName;
+	private EditText inputPassword;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_login);
+		
+		
+		inputName = (EditText) findViewById(R.id.name);
+		inputPassword = (EditText) findViewById(R.id.password);
+        Button btnNextScreen = (Button) findViewById(R.id.btnNextScreen);
+ 
+        //Listening to button event
+        btnNextScreen.setOnClickListener(new View.OnClickListener() {
+ 
+            public void onClick(View arg0) {
+                //Starting a new Intent
+                Intent nextScreen = new Intent(getApplicationContext(), SecondScreenActivity.class);
+ 
+                //Sending data to another Activity
+                nextScreen.putExtra("name", inputName.getText().toString());
+                nextScreen.putExtra("email", inputPassword.getText().toString());
+ 
+                Log.e("n", inputName.getText()+"."+ inputPassword.getText());
+ 
+                startActivity(nextScreen);
+ 
+            }
+        });
+		
+		
 		
 		restCommunication = new RestCommunication();
 		jsonMapper = new ObjectMapper();
 		
-	    initView();
-	    initBtnOnClickListeners();
+		my_root = (LinearLayout) findViewById(R.id.my_root);
+		mainLayout = new LinearLayout(this);
+
+		
+//		SigmobGUI sigmobGUI = new SigmobGUI();
+//		sigmobGUI.createGui(this);
+//	    initView();
+//	    initBtnOnClickListeners();
 	}
 
+	
 	private void initView() {
 		my_root = (LinearLayout) findViewById(R.id.my_root);
 		mainLayout = new LinearLayout(this);
@@ -208,7 +246,7 @@ public class MainActivity extends Activity {
 					String answer = jsonMapper.writeValueAsString(surveyAnswer);
 					answerTextView.setText(answer);
 					
-					restCommunication.doPost("http://176.31.202.49:7777/sigmob/clientapi/response/survey/" + shortTask.getTaskId().toString(), answer);
+					restCommunication.doPost("http://176.31.202.49:7777/sigmob/clientapi/responses/survey/" + shortTask.getTaskId().toString(), answer);
 					
 				} catch (JsonProcessingException e) {
 					errorView.setText(e.toString());
