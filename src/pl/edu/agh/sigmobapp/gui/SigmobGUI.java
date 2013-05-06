@@ -1,6 +1,6 @@
 package pl.edu.agh.sigmobapp.gui;
 
-import pl.edu.agh.sigmobapp.MainActivity;
+//import pl.edu.agh.sigmobapp.MainActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -20,8 +20,7 @@ public class SigmobGUI {
 	private Button getTaskButton;
 	private Button sendResponseButton;
 	
-	
-//	public void createGui(LinearLayout my_root, LinearLayout mainLayout, Context context){
+/*	
 	public void createGui(MainActivity mainActivity){
 		my_root = (LinearLayout) mainActivity.findViewById(R.id.my_root);
 		mainLayout = new LinearLayout(mainActivity);
@@ -37,7 +36,7 @@ public class SigmobGUI {
 		
 		my_root.addView(mainLayout);
 	}
-	
+	*/
 	public void initView(Activity mainActivity) {
 		
 		my_root = (LinearLayout) mainActivity.findViewById(R.id.my_root);

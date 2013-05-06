@@ -75,11 +75,11 @@ public class MainActivity extends Activity {
  
             public void onClick(View arg0) {
                 //Starting a new Intent
-                Intent nextScreen = new Intent(getApplicationContext(), SecondScreenActivity.class);
+                Intent nextScreen = new Intent(getApplicationContext(), MenuActivity.class);
  
                 //Sending data to another Activity
                 nextScreen.putExtra("name", inputName.getText().toString());
-                nextScreen.putExtra("email", inputPassword.getText().toString());
+                nextScreen.putExtra("password", inputPassword.getText().toString());
  
                 Log.e("n", inputName.getText()+"."+ inputPassword.getText());
  
@@ -89,13 +89,13 @@ public class MainActivity extends Activity {
         });
 		
 		
-		
+		/*
 		restCommunication = new RestCommunication();
 		jsonMapper = new ObjectMapper();
 		
 		my_root = (LinearLayout) findViewById(R.id.my_root);
 		mainLayout = new LinearLayout(this);
-
+*/
 		
 //		SigmobGUI sigmobGUI = new SigmobGUI();
 //		sigmobGUI.createGui(this);
