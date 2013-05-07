@@ -24,12 +24,12 @@ public class MenuActivity extends Activity {
         Intent i = getIntent();
         // Receiving the Data
         String name = i.getStringExtra("name");
-        String email = i.getStringExtra("password");
-        Log.e("Second Screen", name + "." + email);
+        String apikey = i.getStringExtra("apikey");
+        Log.e("Second Screen", name + "." + apikey);
  
         // Displaying Received data
         txtName.setText(name);
-        txtEmail.setText(email);
+        txtEmail.setText(apikey);
  
         // Binding Click event to Button
         btnClose.setOnClickListener(new View.OnClickListener() {

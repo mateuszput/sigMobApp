@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
 import pl.edu.agh.sigmobapp.gui.SigmobGUI;
 import pl.edu.agh.sigmobapp.json.Answers;
+import pl.edu.agh.sigmobapp.json.ApiKey;
 import pl.edu.agh.sigmobapp.json.SurveyAnswer;
 import pl.edu.agh.sigmobapp.json.Task;
 import pl.edu.agh.sigmobapp.json.TaskShort;
@@ -39,7 +40,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+	private String version = "v.0.1";
 
+	// TODO: sprawdzic ktore sa nie uzywane, wyrzucic:
 	private LinearLayout my_root;
 	private Button sendRequestButton;
 	private Button getTaskButton;
@@ -60,42 +63,75 @@ public class MainActivity extends Activity {
 	private EditText inputName;
 	private EditText inputPassword;
 	
+	private String hostName = "http://176.31.202.49:7777";
+	private String apiName = "/sigmob/clientapi";
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
+		TextView versionText = (TextView) findViewById(R.id.appVersionTextView);
+		versionText.setText(version);
 		
 		inputName = (EditText) findViewById(R.id.name);
 		inputPassword = (EditText) findViewById(R.id.password);
         Button btnNextScreen = (Button) findViewById(R.id.btnNextScreen);
- 
-        //Listening to button event
+        
+        
+        //Listening to button event - move to method this.initListeners
         btnNextScreen.setOnClickListener(new View.OnClickListener() {
  
             public void onClick(View arg0) {
-                //Starting a new Intent
-                Intent nextScreen = new Intent(getApplicationContext(), MenuActivity.class);
+            	RestCommunication restCommunication = new RestCommunication();
+            	ObjectMapper objectMapper = new ObjectMapper();
+            	String user = inputName.getText().toString();
+            	String password = inputPassword.getText().toString(); 
+            	
+            	String loginAdress = hostName + apiName + "/login";
+            	JSONObject responseJSON = restCommunication.doGetApiKey(loginAdress, user, password);
+            	ApiKey myApi = null;
+            	
+            	try {
+            		if (responseJSON == null) {
+            			Log.e("n", "responseJSON null ");
+            			return;
+            		}
+            		
+            		Log.e("n", "response: " + responseJSON.toString());
+            		
+					myApi = objectMapper.readValue(responseJSON.toString(), ApiKey.class);
+            		
+					Log.e("n", "myApi: " + myApi.getApikey());
+				} catch (JsonParseException e) {
+					Log.e("n", "parse exeption");
+				} catch (JsonMappingException e) {
+					Log.e("n", "jsonmapping exeption");
+				} catch (IOException e) {
+					Log.e("n", "io exeption");
+				}
+	        	
+            	TextView messagesTextView = (TextView) findViewById(R.id.messagesTextView);
+            	if(myApi == null){
+            		messagesTextView.setText("Login incorrect.");
+            	} else {
+            		messagesTextView.setText("");
+            		//Starting a new Intent
+            		Intent nextScreen = new Intent(getApplicationContext(), MenuActivity.class);
  
-                //Sending data to another Activity
-                nextScreen.putExtra("name", inputName.getText().toString());
-                nextScreen.putExtra("password", inputPassword.getText().toString());
+                	//Sending data to another Activity
+                	nextScreen.putExtra("name", user);
+                	nextScreen.putExtra("apikey", myApi.getApikey());
  
-                Log.e("n", inputName.getText()+"."+ inputPassword.getText());
+                	Log.e("n", inputName.getText()+"."+ inputPassword.getText());
  
-                startActivity(nextScreen);
- 
+                	startActivity(nextScreen);
+            	}
             }
         });
 		
 		
-		/*
-		restCommunication = new RestCommunication();
-		jsonMapper = new ObjectMapper();
-		
-		my_root = (LinearLayout) findViewById(R.id.my_root);
-		mainLayout = new LinearLayout(this);
-*/
 		
 //		SigmobGUI sigmobGUI = new SigmobGUI();
 //		sigmobGUI.createGui(this);
