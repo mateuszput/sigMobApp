@@ -12,24 +12,36 @@
             android:gravity="center"
             android:layout_margin="15dip"/>
   
- <TextView android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Login"/>
   <TextView android:id="@+id/txtName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dip"
             android:textSize="18dip"/>
  
-  <TextView android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Apikey"/>
-  <TextView android:id="@+id/txtEmail"
+    <Button android:id="@+id/btnSurveysList"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dip"
-            android:textSize="18dip"/>
- 
+            android:layout_marginTop="15dip"
+            android:text="SurveysList"/>
+     
+     <Button android:id="@+id/btnMesssage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:text="Special message"/>
+     
+    <Button android:id="@+id/btnCyclicTasks"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:text="Cyclic tasks"/>
+    
+    <Button android:id="@+id/btnPreferences"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:text="Preferences"/>
+    
   <Button android:id="@+id/btnClose"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
