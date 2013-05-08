@@ -10,7 +10,6 @@ import java.util.List;
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
-import pl.edu.agh.sigmobapp.gui.SigmobGUI;
 import pl.edu.agh.sigmobapp.json.Answers;
 import pl.edu.agh.sigmobapp.json.ApiKey;
 import pl.edu.agh.sigmobapp.json.SurveyAnswer;
@@ -40,7 +39,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private String version = "v.0.1";
+	private String version = "v.0.2";
 
 	// TODO: sprawdzic ktore sa nie uzywane, wyrzucic:
 	private LinearLayout my_root;
@@ -133,8 +132,6 @@ public class MainActivity extends Activity {
 		
 		
 		
-//		SigmobGUI sigmobGUI = new SigmobGUI();
-//		sigmobGUI.createGui(this);
 //	    initView();
 //	    initBtnOnClickListeners();
 	}
@@ -146,7 +143,7 @@ public class MainActivity extends Activity {
 	    mainLayout.setOrientation(LinearLayout.VERTICAL);
 		answerTextView = new TextView(getApplicationContext());
 	    errorView = new TextView(getApplicationContext());
-	    restCommunication.setErrorView(errorView);
+//	    restCommunication.setErrorView(errorView);
 	    
 	    sendRequestButton = new Button(getApplicationContext());
 	    sendRequestButton.setText("Send request");
@@ -282,7 +279,7 @@ public class MainActivity extends Activity {
 					String answer = jsonMapper.writeValueAsString(surveyAnswer);
 					answerTextView.setText(answer);
 					
-					restCommunication.doPost("http://176.31.202.49:7777/sigmob/clientapi/responses/survey/" + shortTask.getTaskId().toString(), answer);
+//					restCommunication.doPost("http://176.31.202.49:7777/sigmob/clientapi/responses/survey/" + shortTask.getTaskId().toString(), answer);
 					
 				} catch (JsonProcessingException e) {
 					errorView.setText(e.toString());

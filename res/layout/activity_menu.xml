@@ -1,51 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
- 
-  <TextView android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="You are logged in."
-            android:textSize="25dip"
-            android:gravity="center"
-            android:layout_margin="15dip"/>
-  
-  <TextView android:id="@+id/txtName"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dip"
-            android:textSize="18dip"/>
- 
-    <Button android:id="@+id/btnSurveysList"
+            android:gravity="center"
+            android:text="You are logged in."
+            android:textSize="25dip" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dip"
+            android:textSize="18dip" />
+
+        <Button
+            android:id="@+id/btnSurveysList"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dip"
-            android:text="SurveysList"/>
-     
-     <Button android:id="@+id/btnMesssage"
+            android:enabled="false"
+            android:text="Surveys list" />
+
+        <Button
+            android:id="@+id/btnMesssage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dip"
-            android:text="Special message"/>
-     
-    <Button android:id="@+id/btnCyclicTasks"
+            android:text="Special message" />
+
+        <Button
+            android:id="@+id/btnCyclicTasks"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dip"
-            android:text="Cyclic tasks"/>
-    
-    <Button android:id="@+id/btnPreferences"
+            android:enabled="false"
+            android:text="Cyclic tasks" />
+
+        <Button
+            android:id="@+id/btnPreferences"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dip"
-            android:text="Preferences"/>
-    
-  <Button android:id="@+id/btnClose"
+            android:enabled="false"
+            android:text="Preferences" />
+
+        <Button
+            android:id="@+id/btnClose"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dip"
-            android:text="Close"/>
- 
+            android:text="Close" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/messageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Title" />
+
+        <EditText
+            android:id="@+id/messageTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Body" />
+
+        <EditText
+            android:id="@+id/messageBody"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/btnMessageSend"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:text="Send" />
+    </LinearLayout>
+
 </LinearLayout>
