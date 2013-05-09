@@ -13,10 +13,9 @@ import java.util.Properties;
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
-import pl.edu.agh.sigmobapp.json.Answers;
+//import pl.edu.agh.sigmobapp.json.Answers;
 import pl.edu.agh.sigmobapp.json.ApiKey;
 import pl.edu.agh.sigmobapp.json.SurveyAnswer;
-import pl.edu.agh.sigmobapp.json.Task;
 import pl.edu.agh.sigmobapp.json.TaskShort;
 import pl.edu.agh.sigmobapp.json.TasksList;
 
@@ -42,7 +41,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private String version = "v.0.2.1";
+	private String version = "v.0.2.6";
 
 	// TODO: sprawdzic ktore sa nie uzywane, wyrzucic:
 	private LinearLayout my_root;
@@ -56,7 +55,7 @@ public class MainActivity extends Activity {
 	private LinearLayout mainLayout;
 	
 	private RadioGroup radioGroup;
-	private ArrayList<Answers> answers;
+//	private ArrayList<Answers> answers;
 	private TextView errorView;
 
 	
@@ -104,11 +103,11 @@ public class MainActivity extends Activity {
             			return;
             		}
             		
-            		Log.e("n", "response: " + responseJSON.toString());
+//            		Log.e("n", "response: " + responseJSON.toString());
             		
 					myApi = objectMapper.readValue(responseJSON.toString(), ApiKey.class);
             		
-					Log.e("n", "myApi: " + myApi.getApikey());
+//					Log.e("n", "myApi: " + myApi.getApikey());
 				} catch (JsonParseException e) {
 					Log.e("n", "parse exeption");
 				} catch (JsonMappingException e) {
@@ -126,10 +125,10 @@ public class MainActivity extends Activity {
             		Intent nextScreen = new Intent(getApplicationContext(), MenuActivity.class);
  
                 	//Sending data to another Activity
-                	nextScreen.putExtra("name", user);
+//                	nextScreen.putExtra("name", user);
                 	nextScreen.putExtra("apikey", myApi.getApikey());
  
-                	Log.e("n", inputName.getText()+"."+ inputPassword.getText());
+//                	Log.e("n", inputName.getText()+"."+ inputPassword.getText());
  
                 	startActivity(nextScreen);
             	}

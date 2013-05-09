@@ -41,15 +41,15 @@ public class MenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
  
-        TextView txtName = (TextView) findViewById(R.id.txtName);
+//        TextView txtName = (TextView) findViewById(R.id.txtName);
  
         Intent i = getIntent();
         // Receiving the Data
-        String name = i.getStringExtra("name");
+//        String name = i.getStringExtra("name");
         apikey = i.getStringExtra("apikey");
  
         // Displaying Received data
-        txtName.setText("Your login: " + name);
+//        txtName.setText("Your login: " + name);
  
         loadProperties();
         EditText hostIP = (EditText) findViewById(R.id.hostIP);
@@ -152,7 +152,7 @@ public class MenuActivity extends Activity {
         Button btnSurveysList = (Button) findViewById(R.id.btnSurveysList);
         btnSurveysList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-            	Intent nextScreen = new Intent(getApplicationContext(), SurveyActivity.class);
+            	Intent nextScreen = new Intent(getApplicationContext(), SListActivity.class);
                	nextScreen.putExtra("apikey", apikey);
                 startActivity(nextScreen);
                 finish();

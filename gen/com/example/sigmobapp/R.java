@@ -16,6 +16,7 @@ public final class R {
     public static final class id {
         public static final int appVersionTextView=0x7f070004;
         public static final int btnClose=0x7f07000c;
+        public static final int btnCloseSurvey=0x7f070019;
         public static final int btnCloseSurveysList=0x7f070016;
         public static final int btnCyclicTasks=0x7f07000a;
         public static final int btnMessageSend=0x7f070010;
@@ -26,7 +27,7 @@ public final class R {
         public static final int btnSurveysList=0x7f070008;
         public static final int hostIP=0x7f070012;
         public static final int menuLayout=0x7f070006;
-        public static final int menu_settings=0x7f070019;
+        public static final int menu_settings=0x7f07001a;
         public static final int messageBody=0x7f07000f;
         public static final int messageLayout=0x7f07000d;
         public static final int messageTitle=0x7f07000e;
@@ -45,7 +46,8 @@ public final class R {
         public static final int activity_login=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_menu=0x7f030002;
-        public static final int activity_survey=0x7f030003;
+        public static final int activity_slist=0x7f030003;
+        public static final int activity_survey=0x7f030004;
     }
     public static final class menu {
         public static final int activity_main=0x7f060000;

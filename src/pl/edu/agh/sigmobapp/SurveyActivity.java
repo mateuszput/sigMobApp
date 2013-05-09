@@ -9,9 +9,9 @@ import java.util.Properties;
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
+import pl.edu.agh.sigmobapp.json.Question;
 import pl.edu.agh.sigmobapp.json.Survey;
 import pl.edu.agh.sigmobapp.json.TaskShort;
-import pl.edu.agh.sigmobapp.json.TasksList;
 
 import com.example.sigmobapp.R;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SurveyActivity extends Activity {
@@ -33,7 +32,7 @@ public class SurveyActivity extends Activity {
 	private String apiName = "/sigmob/clientapi";
 	
 	private String apikey;
-
+	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
@@ -43,81 +42,27 @@ public class SurveyActivity extends Activity {
         Intent i = getIntent();
         apikey = i.getStringExtra("apikey");
         
-        TextView surveysListTitle = (TextView) findViewById(R.id.surveysListTitle);
-        surveysListTitle.setText("Surveys list");
+        String surveyId = i.getStringExtra("surveyId");
         
-        Button btnCloseSurveysList = (Button) findViewById(R.id.btnCloseSurveysList);
+        Button btnCloseSurveysList = (Button) findViewById(R.id.btnCloseSurvey);
         btnCloseSurveysList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                finish();
-                // TODO: open activity 2
+            	Intent sListScreen = new Intent(getApplicationContext(), SListActivity.class);
+            	sListScreen.putExtra("apikey", apikey);
+            	finish();
+            	startActivity(sListScreen);
             }
         });
         
-        RestCommunication restCommunication = new RestCommunication();
-        JSONObject responseJSON = restCommunication.doGet(hostName + apiName + "/tasks", apikey);
-//        Log.e("n", "response: " + responseJSON.toString());
-        
-        
-        ObjectMapper objectMapper = new ObjectMapper();
-        TasksList tasksList = null;
-        try {
-			tasksList = objectMapper.readValue(responseJSON.toString(), TasksList.class);
-		} catch (JsonParseException e) {
-			Log.e("n", "" + e);
-		} catch (JsonMappingException e) {
-			Log.e("n", "" + e);
-		} catch (IOException e) {
-			Log.e("n", "" + e);
-		}
-    	
-        
-    	if (tasksList != null && tasksList.getTasks().size() != 0){
-    		LinearLayout surveysListLayout = (LinearLayout) findViewById(R.id.surveysListLayout);
-    		
-    		Iterator<TaskShort> iterator = tasksList.getTasks().iterator();
-    		TaskShort taskShort = null;
-    		int taskNumber = 0;
-    		while(iterator.hasNext()){
-    			taskShort = iterator.next();
-    			String type = taskShort.getType();
-    			Number surveyId = taskShort.getId();
-    			
-    			if (type.equalsIgnoreCase("SURVEY")){
-    				taskNumber++;
-    				Button button = new Button(getApplicationContext());
-    				button.setText("survey " + taskNumber);
-    				button.setTag((Integer) surveyId );
-    				// TODO add listener
-    				button.setOnClickListener(new View.OnClickListener() {
-    		            public void onClick(View view) {
-    		            	Integer surveyId = (Integer)view.getTag();
-
-    		            	setSurvey(surveyId);
-    		            	
-    		            	hideAllLayouts();
-    		            	LinearLayout surveyLayout = (LinearLayout) findViewById(R.id.surveyLayout);
-    		            	surveyLayout.setVisibility(LinearLayout.VISIBLE);
-    		            }
-    		        });
-    				surveysListLayout.addView(button);
-    			}
-    		}
-    		
-    	} else {
-    		surveysListTitle.setText("Surveys list empty");
-    	}
+        setSurveyDetails(surveyId);
         
 	}
 	
 	
-	private void setSurvey(Integer surveyId) {
-//		Log.e("n", "surveyId: " + surveyId);
-
+	private void setSurveyDetails(String surveyId) {
 		RestCommunication restCommunication = new RestCommunication();
 		JSONObject responseJSON = restCommunication.doGet(hostName + apiName
 				+ "/task/" + surveyId + "/survey", apikey);
-		Log.e("n", "response: " + responseJSON.toString());
 		
 		ObjectMapper objectMapper = new ObjectMapper();
         Survey survey = null;
@@ -131,10 +76,25 @@ public class SurveyActivity extends Activity {
 			Log.e("n", "" + e);
 		}
         
-        Log.e("n", "survey: " + survey.getName());
-
+        TextView surveysListTitle = (TextView) findViewById(R.id.surveyTitle);
+        surveysListTitle.setText(survey.getName());
+        
+        Iterator<Question> iterator = survey.getQuestions().iterator();
+		Question question = null;
+		int taskNumber = 0;
+		
+		// TODO - tutaj znowu zaczac
+		// TODO:
+		// 1. Tworzone pytania do tablicy
+		// 2. Przycisk wysylajacy odpowiedz
+		// 3. Pod przyciskiem przechodzimy przez wszystkie pytania z tablicy
+		while(iterator.hasNext()){
+			question = iterator.next();
+			
+		}
 	}
-	
+
+
 	private void loadProperties() {
     	FileInputStream fis;
 		try {
@@ -150,11 +110,4 @@ public class SurveyActivity extends Activity {
 		}
 		
 	}
-	
-	private void hideAllLayouts(){
-    	LinearLayout surveysListLayout = (LinearLayout) findViewById(R.id.surveysListLayout);
-    	surveysListLayout.setVisibility(LinearLayout.GONE);
-    	LinearLayout surveyLayout = (LinearLayout) findViewById(R.id.surveyLayout);
-    	surveyLayout.setVisibility(LinearLayout.GONE);
-    }
 }

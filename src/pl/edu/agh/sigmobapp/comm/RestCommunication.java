@@ -45,13 +45,13 @@ public class RestCommunication {
 			connection.setDoInput(true);
 			connection.setReadTimeout(10000);
 			connection.connect();
-			Log.e("n", "Connect");
+//			Log.e("n", "Connect");
 			
 			OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
 	        wr.write(jsonToSend);
 	        wr.flush();
 	        wr.close();
-	        Log.e("n", "output send");
+//	        Log.e("n", "output send");
 	        
 			InputStream is = connection.getInputStream();
 			BufferedReader bufferedReader = new BufferedReader(
@@ -67,7 +67,7 @@ public class RestCommunication {
 			json = new JSONObject(response.toString());
 			is.close();
 
-			Log.e("n", "It is ok");
+//			Log.e("n", "It is ok");
 	        
 		} catch (MalformedURLException e) {
 			Log.e("n", "MalformedURLException");
@@ -88,7 +88,7 @@ public class RestCommunication {
 
 		URL url;
 		try {
-			Log.e("n", "url");
+//			Log.e("n", "url");
 			url = new URL(stringURL);
 			
 			connection = (HttpURLConnection) url.openConnection();
