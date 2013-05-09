@@ -39,7 +39,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private String version = "v.0.2";
+	private String version = "v.0.2.1";
 
 	// TODO: sprawdzic ktore sa nie uzywane, wyrzucic:
 	private LinearLayout my_root;
