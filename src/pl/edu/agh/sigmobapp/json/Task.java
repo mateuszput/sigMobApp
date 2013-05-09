@@ -3,6 +3,7 @@ package pl.edu.agh.sigmobapp.json;
 
 import java.util.List;
 
+// TODO: nie uzywana klasa?
 public class Task{
    	private List<Answers> answers;
    	private String question;

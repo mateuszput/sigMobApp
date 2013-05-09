@@ -9,6 +9,7 @@ import java.util.Properties;
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
+import pl.edu.agh.sigmobapp.json.Survey;
 import pl.edu.agh.sigmobapp.json.TaskShort;
 import pl.edu.agh.sigmobapp.json.TasksList;
 
@@ -53,8 +54,6 @@ public class SurveyActivity extends Activity {
             }
         });
         
-        //TODO:
-        // 1. pobranie listy z serwera
         RestCommunication restCommunication = new RestCommunication();
         JSONObject responseJSON = restCommunication.doGet(hostName + apiName + "/tasks", apikey);
 //        Log.e("n", "response: " + responseJSON.toString());
@@ -113,8 +112,27 @@ public class SurveyActivity extends Activity {
 	
 	
 	private void setSurvey(Integer surveyId) {
-		// TODO Auto-generated method stub
-		Log.e("n", "surveyId: " + surveyId);
+//		Log.e("n", "surveyId: " + surveyId);
+
+		RestCommunication restCommunication = new RestCommunication();
+		JSONObject responseJSON = restCommunication.doGet(hostName + apiName
+				+ "/task/" + surveyId + "/survey", apikey);
+		Log.e("n", "response: " + responseJSON.toString());
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+        Survey survey = null;
+        try {
+        	survey = objectMapper.readValue(responseJSON.toString(), Survey.class);
+		} catch (JsonParseException e) {
+			Log.e("n", "" + e);
+		} catch (JsonMappingException e) {
+			Log.e("n", "" + e);
+		} catch (IOException e) {
+			Log.e("n", "" + e);
+		}
+        
+        Log.e("n", "survey: " + survey.getName());
+
 	}
 	
 	private void loadProperties() {
