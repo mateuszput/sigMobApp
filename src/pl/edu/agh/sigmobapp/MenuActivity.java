@@ -9,8 +9,12 @@ import java.util.Properties;
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
+import pl.edu.agh.sigmobapp.json.ApiKey;
 
 import com.example.sigmobapp.R;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -143,6 +147,19 @@ public class MenuActivity extends Activity {
             	menuLayout.setVisibility(LinearLayout.VISIBLE);
             }
         });
+        
+        
+        Button btnSurveysList = (Button) findViewById(R.id.btnSurveysList);
+        btnSurveysList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+            	Intent nextScreen = new Intent(getApplicationContext(), SurveyActivity.class);
+               	nextScreen.putExtra("apikey", apikey);
+                startActivity(nextScreen);
+                finish();
+            }
+        });
+        
+        
  
     }
     

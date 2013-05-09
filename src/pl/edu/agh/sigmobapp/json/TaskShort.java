@@ -2,14 +2,14 @@
 package pl.edu.agh.sigmobapp.json;
 
 public class TaskShort{
-   	private Number taskId;
+   	private Number id;
    	private String type;
 
- 	public Number getTaskId(){
-		return this.taskId;
+ 	public Number getId(){
+		return this.id;
 	}
-	public void setTaskId(Number taskId){
-		this.taskId = taskId;
+	public void setId(Number taskId){
+		this.id = taskId;
 	}
  	public String getType(){
 		return this.type;

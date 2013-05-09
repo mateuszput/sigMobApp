@@ -1,11 +1,14 @@
 package pl.edu.agh.sigmobapp;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 import org.json.JSONObject;
 
@@ -65,11 +68,14 @@ public class MainActivity extends Activity {
 	private String hostName = "http://176.31.202.49:7777";
 	private String apiName = "/sigmob/clientapi";
 	
+	private String propertiesFile = "settings_file";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		
+		loadProperties();
 		
 		TextView versionText = (TextView) findViewById(R.id.appVersionTextView);
 		versionText.setText(version);
@@ -136,6 +142,22 @@ public class MainActivity extends Activity {
 //	    initBtnOnClickListeners();
 	}
 
+	private void loadProperties() {
+    	FileInputStream fis;
+		try {
+			Properties properties = new Properties();
+			fis = openFileInput(propertiesFile);
+			properties.loadFromXML(fis);
+			hostName = properties.getProperty("hostIP", "http://176.31.202.49:7777");
+        	fis.close();
+		} catch (FileNotFoundException e) {
+			Log.e("n", "" + e);
+		} catch (IOException e) {
+			Log.e("n", "" + e);
+		}
+		
+	}
+	
 	
 	private void initView() {
 		my_root = (LinearLayout) findViewById(R.id.my_root);
@@ -177,7 +199,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	
+	/*
 	private void initBtnOnClickListeners() {
 		sendRequestButton.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
@@ -289,5 +311,5 @@ public class MainActivity extends Activity {
 	        }
 	    });
 	}
-
+	*/
 }

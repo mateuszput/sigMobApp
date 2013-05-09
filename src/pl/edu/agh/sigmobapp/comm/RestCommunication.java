@@ -92,7 +92,6 @@ public class RestCommunication {
 			url = new URL(stringURL);
 			
 			connection = (HttpURLConnection) url.openConnection();
-			Log.e("n", "After Connected");
 			
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Content-Type", "application/json");
@@ -103,16 +102,13 @@ public class RestCommunication {
 			connection.setReadTimeout(10000);
 			
 			connection.connect();
-			Log.e("n", "Connected");
 			
 			String jsonToSend = "{\"username\":\""+ user +  "\", \"password\":\"" + password + "\"}";
 			OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
 	        wr.write(jsonToSend);
 	        wr.flush();
 	        wr.close();
-	        Log.e("n", "send");
 
-			// String result= convertStreamToString(instream);
 			InputStream is = connection.getInputStream();
 			BufferedReader bufferedReader = new BufferedReader(
 					new InputStreamReader(is));
@@ -127,27 +123,79 @@ public class RestCommunication {
 			json = new JSONObject(response.toString());
 			is.close();
 
-			Log.e("n", "It is ok");
 		} catch (MalformedURLException e) {
 			Log.e("n", "MalformedURLException");
-//			e.printStackTrace();
 		} catch (ProtocolException e) {
 			Log.e("n", "ProtocolException");
-//			e.printStackTrace();
 		} catch (IOException e) {
 			Log.e("n", "IOException");
-//			e.printStackTrace();
 		} catch (JSONException e) {
 			Log.e("n", "JSONException");
-//			e.printStackTrace();
 		}
 
 		return json;
 	}
 	
 	
+	public JSONObject doGet(String stringURL, String apiKey) {
+		JSONObject json = null;
+		HttpURLConnection connection = null;
+
+		URL url;
+		try {
+//			Log.e("n", "url");
+			url = new URL(stringURL);
+			
+			connection = (HttpURLConnection) url.openConnection();
+			
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Content-Type", "application/json");
+			connection.setRequestProperty("Accept", "application/json");
+			connection.setRequestProperty("Authorization", "apikey=" + apiKey);
+			
+//			connection.setDoInput(true);
+			connection.setDoOutput(true);
+			connection.setReadTimeout(10000);
+			
+			connection.connect();
+			
+//			String jsonToSend = "{\"username\":\""+ user +  "\", \"password\":\"" + password + "\"}";
+//			OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+//	        wr.write(jsonToSend);
+//	        wr.flush();
+//	        wr.close();
+
+			InputStream is = connection.getInputStream();
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(is));
+			String line;
+			StringBuffer response = new StringBuffer();
+			while ((line = bufferedReader.readLine()) != null) {
+				response.append(line);
+				response.append('\r');
+			}
+			bufferedReader.close();
+
+			json = new JSONObject(response.toString());
+			is.close();
+//			Log.e("n", "is ok");
+		} catch (MalformedURLException e) {
+			Log.e("n", "MalformedURLException");
+		} catch (ProtocolException e) {
+			Log.e("n", "ProtocolException");
+		} catch (IOException e) {
+			Log.e("n", "IOException");
+		} catch (JSONException e) {
+			Log.e("n", "JSONException");
+		}
+
+		return json;
+	}
+	
+	
+	
 	// TODO: add apikey to authorization
-	public JSONObject doGet(String stringURL) {
+	public JSONObject doGet_old(String stringURL) {
 		JSONObject json = null;
 		HttpURLConnection connection = null;
 
@@ -161,7 +209,7 @@ public class RestCommunication {
 			connection.setRequestProperty("Content-Type", "application/json");
 			connection.setRequestProperty("Accept", "application/json");
 //			connection.setRequestProperty("Authorization", "alwaysTheSameData");
-//			connection.setRequestProperty("Authorization", "mapu_apikey");
+			connection.setRequestProperty("Authorization", "mapu_apikey");
 			
 			connection.setDoOutput(true);
 			connection.setReadTimeout(10000);
@@ -196,7 +244,4 @@ public class RestCommunication {
 		return json;
 	}
 
-//	public void setErrorView(TextView errorView) {
-//		this.errorView = errorView;
-//	}
 }

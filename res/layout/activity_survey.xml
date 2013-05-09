@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:id="@+id/surveysListLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        
+        <TextView
+            android:id="@+id/surveysListTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dip"
+            android:textSize="18dip" />
+        
+        <Button android:id="@+id/btnCloseSurveysList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="close"
+            android:layout_marginTop="15dip"/>
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/surveyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        
+        <TextView
+            android:id="@+id/surveyTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dip"
+            android:textSize="18dip" />
+        
+    </LinearLayout>
+
+</LinearLayout>
