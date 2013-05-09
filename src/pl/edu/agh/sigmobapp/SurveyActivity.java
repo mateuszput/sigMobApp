@@ -4,11 +4,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
+import pl.edu.agh.sigmobapp.json.Answer;
 import pl.edu.agh.sigmobapp.json.Question;
 import pl.edu.agh.sigmobapp.json.Survey;
 import pl.edu.agh.sigmobapp.json.TaskShort;
@@ -88,9 +90,32 @@ public class SurveyActivity extends Activity {
 		// 1. Tworzone pytania do tablicy
 		// 2. Przycisk wysylajacy odpowiedz
 		// 3. Pod przyciskiem przechodzimy przez wszystkie pytania z tablicy
+		
+//		"questionId": 2,
+//        "question": "Inne pytanie",
+//        "answers": [
+//            {
+//                "answerId": 3,
+//                "answer": "Tak"
+//            },
+//            {
+//                "answerId": 4,
+//                "answer": "Nie"
+//            }
+//        ]
 		while(iterator.hasNext()){
 			question = iterator.next();
+			question.getQuestion();
+			// Wyswietlanie pytania - text
+			List<Answer> answers = question.getAnswers();
 			
+			Iterator<Answer> answersAterator = answers.iterator();
+			Answer answer = null;
+			while(answersAterator.hasNext()){
+				answer = answersAterator.next();
+				// Wyswietlanie odpowiedzi - radio buttony
+				// answerId, answer
+			}
 		}
 	}
 
