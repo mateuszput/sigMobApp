@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -11,21 +12,28 @@ import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
 import pl.edu.agh.sigmobapp.json.Answer;
+import pl.edu.agh.sigmobapp.json.ChoosenAnswer;
 import pl.edu.agh.sigmobapp.json.Question;
 import pl.edu.agh.sigmobapp.json.Survey;
-import pl.edu.agh.sigmobapp.json.TaskShort;
+import pl.edu.agh.sigmobapp.json.SurveyAnswer;
+import pl.edu.agh.sigmobapp.utils.SurveyRadioTag;
 
 import com.example.sigmobapp.R;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class SurveyActivity extends Activity {
@@ -34,6 +42,9 @@ public class SurveyActivity extends Activity {
 	private String apiName = "/sigmob/clientapi";
 	
 	private String apikey;
+	
+	private List<RadioGroup> radioGrupsList;
+	private String taskId;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +55,7 @@ public class SurveyActivity extends Activity {
         Intent i = getIntent();
         apikey = i.getStringExtra("apikey");
         
-        String surveyId = i.getStringExtra("surveyId");
+        String taskId = i.getStringExtra("taskId");
         
         Button btnCloseSurveysList = (Button) findViewById(R.id.btnCloseSurvey);
         btnCloseSurveysList.setOnClickListener(new View.OnClickListener() {
@@ -56,15 +67,19 @@ public class SurveyActivity extends Activity {
             }
         });
         
-        setSurveyDetails(surveyId);
+        setSurveyDetails(taskId);
         
 	}
 	
 	
-	private void setSurveyDetails(String surveyId) {
+	private void setSurveyDetails(String taskId) {
+		this.taskId = taskId;
+		
 		RestCommunication restCommunication = new RestCommunication();
 		JSONObject responseJSON = restCommunication.doGet(hostName + apiName
-				+ "/task/" + surveyId + "/survey", apikey);
+				+ "/task/" + taskId + "/survey", apikey);
+		
+		radioGrupsList = new LinkedList<RadioGroup>();
 		
 		ObjectMapper objectMapper = new ObjectMapper();
         Survey survey = null;
@@ -81,42 +96,103 @@ public class SurveyActivity extends Activity {
         TextView surveysListTitle = (TextView) findViewById(R.id.surveyTitle);
         surveysListTitle.setText(survey.getName());
         
-        Iterator<Question> iterator = survey.getQuestions().iterator();
+        
+        Iterator<Question> qmestionsIterator = survey.getQuestions().iterator();
 		Question question = null;
-		int taskNumber = 0;
 		
-		// TODO - tutaj znowu zaczac
-		// TODO:
-		// 1. Tworzone pytania do tablicy
-		// 2. Przycisk wysylajacy odpowiedz
-		// 3. Pod przyciskiem przechodzimy przez wszystkie pytania z tablicy
-		
-//		"questionId": 2,
-//        "question": "Inne pytanie",
-//        "answers": [
-//            {
-//                "answerId": 3,
-//                "answer": "Tak"
-//            },
-//            {
-//                "answerId": 4,
-//                "answer": "Nie"
-//            }
-//        ]
-		while(iterator.hasNext()){
-			question = iterator.next();
-			question.getQuestion();
-			// Wyswietlanie pytania - text
+		LinearLayout surveyLayout = (LinearLayout) findViewById(R.id.surveyLayout);
+		TextView questionText = null;
+		while(qmestionsIterator.hasNext()){
+			question = qmestionsIterator.next();
+			String questrionString = question.getQuestion();
+			
+			questionText = new TextView(getApplicationContext());
+			questionText.setText(questrionString);
+			questionText.setTextColor(Color.parseColor("#000000"));
+			surveyLayout.addView(questionText);
+			
 			List<Answer> answers = question.getAnswers();
 			
-			Iterator<Answer> answersAterator = answers.iterator();
+			List<RadioButton> radioButtonList = new LinkedList<RadioButton>();
+			RadioGroup radioGroup = new RadioGroup(getApplicationContext()); 
+			radioGroup.setOrientation(RadioGroup.VERTICAL);
+			
+			
+			RadioButton radioButton = null;
+			Iterator<Answer> answersIterator = answers.iterator();
 			Answer answer = null;
-			while(answersAterator.hasNext()){
-				answer = answersAterator.next();
-				// Wyswietlanie odpowiedzi - radio buttony
-				// answerId, answer
+			while(answersIterator.hasNext()){
+				answer = answersIterator.next();
+				
+				radioButton = new RadioButton(getApplicationContext());
+				radioGroup.addView(radioButton); //the RadioButtons are added to the radioGroup instead of the layout
+				radioButton.setTextColor(Color.parseColor("#000000"));
+		        radioButton.setChecked(true);
+		        radioButton.setText(answer.getAnswer());
+		        
+		        SurveyRadioTag surveyRadioTag = new SurveyRadioTag(survey.getSurveyId(), question.getQuestionId(), answer.getId());
+		        radioButton.setTag(surveyRadioTag);
+				radioButtonList.add(radioButton);
 			}
+			radioGrupsList.add(radioGroup);
+			surveyLayout.addView(radioGroup);//you add the whole RadioGroup to the layout
 		}
+		
+		
+	    
+		Button btnSendSurvey = new Button(getApplicationContext());
+		btnSendSurvey.setText("Send survey");
+		
+		btnSendSurvey.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+            	sendAnswer();
+            }
+        });
+		
+		surveyLayout.addView(btnSendSurvey);
+		
+	}
+
+	
+	protected void sendAnswer() {
+		Iterator<RadioGroup> radioGrupsIterator = radioGrupsList.iterator();
+    	
+    	SurveyAnswer surveyAnswer = new SurveyAnswer();
+    	while(radioGrupsIterator.hasNext()){
+    		int radioId = radioGrupsIterator.next().getCheckedRadioButtonId();
+    		RadioButton checkedRadioButton = (RadioButton) findViewById(radioId);
+    		SurveyRadioTag surveyRadioTag = (SurveyRadioTag) checkedRadioButton.getTag();
+    		
+    		ChoosenAnswer choosenAnswer = new ChoosenAnswer();
+    		choosenAnswer.setAnswerId(surveyRadioTag.getAnswerId());
+    		choosenAnswer.setQuestionId(surveyRadioTag.getQuestionId());
+    		
+    		surveyAnswer.setSurveyId(surveyRadioTag.getSurveyId());
+    		
+    		List<ChoosenAnswer> chosenAnswersList = surveyAnswer.getChosenAnswers();
+    		if(chosenAnswersList == null) {
+    			chosenAnswersList = new LinkedList<ChoosenAnswer>();
+    			surveyAnswer.setChosenAnswers(chosenAnswersList);
+    		}
+    		
+    		surveyAnswer.getChosenAnswers().add(choosenAnswer);
+    		
+    	}
+    	
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	try {
+			String answer = objectMapper.writeValueAsString(surveyAnswer);
+			RestCommunication restCommunication = new RestCommunication();
+			restCommunication.doPost(hostName + apiName + "/response/" + taskId + "/survey" , apikey, answer);
+			
+		} catch (JsonProcessingException e) {
+			Log.e("n", "" + e);
+		}
+    	
+    	Intent sListScreen = new Intent(getApplicationContext(), SListActivity.class);
+    	sListScreen.putExtra("apikey", apikey);
+    	finish();
+    	startActivity(sListScreen);
 	}
 
 

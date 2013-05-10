@@ -80,21 +80,21 @@ public class SListActivity extends Activity {
     		while(iterator.hasNext()){
     			taskShort = iterator.next();
     			String type = taskShort.getType();
-    			Number surveyId = taskShort.getId();
+    			Number taskId = taskShort.getId();
     			
     			if (type.equalsIgnoreCase("SURVEY")){
     				taskNumber++;
     				Button button = new Button(getApplicationContext());
     				button.setText("survey " + taskNumber);
-    				button.setTag( surveyId );
+    				button.setTag( taskId );
     				
     				button.setOnClickListener(new View.OnClickListener() {
     		            public void onClick(View view) {
-    		            	Number surveyId = (Number)view.getTag();
+    		            	Number taskId = (Number)view.getTag();
 
     		            	Intent surveyScreen = new Intent(getApplicationContext(), SurveyActivity.class);
     	                	surveyScreen.putExtra("apikey", apikey);
-    	                	surveyScreen.putExtra("surveyId", surveyId.toString());
+    	                	surveyScreen.putExtra("taskId", taskId.toString());
     	                	finish();
     	                	startActivity(surveyScreen);
     		            }

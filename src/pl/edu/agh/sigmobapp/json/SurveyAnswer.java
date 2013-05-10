@@ -4,19 +4,20 @@ package pl.edu.agh.sigmobapp.json;
 import java.util.List;
 
 public class SurveyAnswer{
-   	private Number answer;
-//   	private Number responseId;
-
- 	public Number getAnswer(){
-		return this.answer;
+   	private Number surveyId;
+   	private List<ChoosenAnswer> chosenAnswers;
+   	
+ 	public Number getSurveyId(){
+		return this.surveyId;
 	}
-	public void setAnswer(Number answer){
-		this.answer = answer;
+	public void setSurveyId(Number surveyId){
+		this.surveyId = surveyId;
 	}
-// 	public Number getResponseId(){
-//		return this.responseId;
-//	}
-//	public void setResponseId(Number responseId){
-//		this.responseId = responseId;
-//	}
+	public List<ChoosenAnswer> getChosenAnswers(){
+		return this.chosenAnswers;
+	}
+	public void setChosenAnswers(List<ChoosenAnswer> chosenAnswers){
+		this.chosenAnswers = chosenAnswers;
+	}
+	
 }
