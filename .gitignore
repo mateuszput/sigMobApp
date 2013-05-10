@@ -1,3 +1,15 @@
+/bin/AndroidManifest.xml
+/bin/classes.dex
+/bin/dexedLibs/android-support-v4-aafb3622c988daeae00fbeac25cb86cc.jar
+/bin/dexedLibs/annotations-2cff64c8e5f23eeb3045e37181ecc73e.jar
+/bin/dexedLibs/jackson-annotations-2.1.1-854a61646f9a8fce786df423449968b0.jar
+/bin/dexedLibs/jackson-core-2.1.1-4ed67ff0fcb51589ded24e730e730f82.jar
+/bin/dexedLibs/jackson-databind-2.1.1-b0de3b133a9c85d5413ba06b23c89ca3.jar
+/bin/res/drawable-hdpi/ic_launcher.png
+/bin/res/drawable-ldpi/ic_launcher.png
+/bin/res/drawable-mdpi/ic_launcher.png
+/bin/res/drawable-xhdpi/ic_launcher.png
+/bin/resources.ap_
 /bin/classes/pl/edu/agh/sigmobapp/MainActivity$2.class
 /bin/classes/pl/edu/agh/sigmobapp/MainActivity$3.class
 /bin/classes/com/example/sigmobapp/R$attr.class
