@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
 import pl.edu.agh.sigmobapp.json.TaskShort;
 import pl.edu.agh.sigmobapp.json.TasksList;
+import pl.edu.agh.sigmobapp.utils.SigmobProperties;
 
 import com.example.sigmobapp.R;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -28,16 +29,18 @@ import android.widget.TextView;
 
 public class SListActivity extends Activity {
 	private String propertiesFile = "settings_file";
-	private String hostName; // = "http://176.31.202.49:7777";
-	private String apiName = "/sigmob/clientapi";
+//	private String hostName; // = "http://176.31.202.49:7777";
+//	private String apiName = "/sigmob/clientapi";
 	
 	private String apikey;
-
+	private SigmobProperties sigmobProperties;
+	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slist);
  
-        loadProperties();
+        sigmobProperties = SigmobProperties.getInstance();
+//        loadProperties();
         
         Intent i = getIntent();
         apikey = i.getStringExtra("apikey");
@@ -56,7 +59,7 @@ public class SListActivity extends Activity {
         });
         
         RestCommunication restCommunication = new RestCommunication();
-        JSONObject responseJSON = restCommunication.doGet(hostName + apiName + "/tasks", apikey);
+        JSONObject responseJSON = restCommunication.doGet(sigmobProperties.getHostAndApi() + "/tasks", apikey);
         
         ObjectMapper objectMapper = new ObjectMapper();
         TasksList tasksList = null;
@@ -109,7 +112,7 @@ public class SListActivity extends Activity {
         
 	}
 	
-	
+	/*
 	private void loadProperties() {
     	FileInputStream fis;
 		try {
@@ -124,5 +127,6 @@ public class SListActivity extends Activity {
 			Log.e("n", "" + e);
 		}
 	}
+	*/
 	
 }

@@ -16,6 +16,7 @@ import pl.edu.agh.sigmobapp.json.ChoosenAnswer;
 import pl.edu.agh.sigmobapp.json.Question;
 import pl.edu.agh.sigmobapp.json.Survey;
 import pl.edu.agh.sigmobapp.json.SurveyAnswer;
+import pl.edu.agh.sigmobapp.utils.SigmobProperties;
 import pl.edu.agh.sigmobapp.utils.SurveyRadioTag;
 
 import com.example.sigmobapp.R;
@@ -38,19 +39,21 @@ import android.widget.TextView;
 
 public class SurveyActivity extends Activity {
 	private String propertiesFile = "settings_file";
-	private String hostName; // = "http://176.31.202.49:7777";
-	private String apiName = "/sigmob/clientapi";
+//	private String hostName; // = "http://176.31.202.49:7777";
+//	private String apiName = "/sigmob/clientapi";
 	
 	private String apikey;
 	
 	private List<RadioGroup> radioGrupsList;
 	private String taskId;
+	private SigmobProperties sigmobProperties;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
  
-        loadProperties();
+        sigmobProperties = SigmobProperties.getInstance();
+//        loadProperties();
         
         Intent i = getIntent();
         apikey = i.getStringExtra("apikey");
@@ -76,7 +79,7 @@ public class SurveyActivity extends Activity {
 		this.taskId = taskId;
 		
 		RestCommunication restCommunication = new RestCommunication();
-		JSONObject responseJSON = restCommunication.doGet(hostName + apiName
+		JSONObject responseJSON = restCommunication.doGet(sigmobProperties.getHostAndApi()
 				+ "/task/" + taskId + "/survey", apikey);
 		
 		radioGrupsList = new LinkedList<RadioGroup>();
@@ -183,7 +186,7 @@ public class SurveyActivity extends Activity {
     	try {
 			String answer = objectMapper.writeValueAsString(surveyAnswer);
 			RestCommunication restCommunication = new RestCommunication();
-			restCommunication.doPost(hostName + apiName + "/response/" + taskId + "/survey" , apikey, answer);
+			restCommunication.doPost(sigmobProperties.getHostAndApi() + "/response/" + taskId + "/survey" , apikey, answer);
 			
 		} catch (JsonProcessingException e) {
 			Log.e("n", "" + e);
@@ -196,8 +199,10 @@ public class SurveyActivity extends Activity {
 	}
 
 
+	/*
 	private void loadProperties() {
-    	FileInputStream fis;
+//		SigmobProperties sigmobProperties = SigmobProperties.getInstance();
+		FileInputStream fis;
 		try {
 			Properties properties = new Properties();
 			fis = openFileInput(propertiesFile);
@@ -211,4 +216,5 @@ public class SurveyActivity extends Activity {
 		}
 		
 	}
+	*/
 }

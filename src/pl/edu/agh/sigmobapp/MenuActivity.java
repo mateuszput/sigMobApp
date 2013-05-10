@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
 import pl.edu.agh.sigmobapp.json.ApiKey;
+import pl.edu.agh.sigmobapp.utils.SigmobProperties;
 
 import com.example.sigmobapp.R;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -29,31 +30,28 @@ import android.widget.TextView;
  
 
 public class MenuActivity extends Activity {
-	private String hostName; // = "http://176.31.202.49:7777";
-	private String apiName = "/sigmob/clientapi";
+//	private String hostName; // = "http://176.31.202.49:7777";
+//	private String apiName = "/sigmob/clientapi";
 	
 	private String apikey;
 	private String propertiesFile = "settings_file";
+	
+	private SigmobProperties sigmobProperties;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
- 
-//        TextView txtName = (TextView) findViewById(R.id.txtName);
+        sigmobProperties = SigmobProperties.getInstance();
  
         Intent i = getIntent();
-        // Receiving the Data
-//        String name = i.getStringExtra("name");
         apikey = i.getStringExtra("apikey");
  
-        // Displaying Received data
-//        txtName.setText("Your login: " + name);
  
-        loadProperties();
+//        loadProperties();
         EditText hostIP = (EditText) findViewById(R.id.hostIP);
-        hostIP.setText(hostName);
+        hostIP.setText(sigmobProperties.getHostName());
         
         
         // TODO: in future move to method
@@ -93,8 +91,8 @@ public class MenuActivity extends Activity {
 							+ "\", \"body\": \"" + messageString
 							+ "\", \"attachments\": []}";
 
-					JSONObject responseJSON = restCommunication.doPost(hostName
-							+ apiName + "/messages", apikey, jsonToSend);
+					JSONObject responseJSON = restCommunication.doPost(sigmobProperties.getHostAndApi()
+							 + "/messages", apikey, jsonToSend);
 					Log.e("n", "response: " + responseJSON.toString());
 				}
 				messageTitle.setText("");
@@ -124,8 +122,7 @@ public class MenuActivity extends Activity {
             	EditText hostIP = (EditText) findViewById(R.id.hostIP);
             	
             	String hostIPString = hostIP.getText().toString(); //.replaceAll("\\W", "");
-            	hostName = hostIPString;
-            	
+            	sigmobProperties.setHostName(hostIPString);
 
             	FileOutputStream fos;
 				try {
@@ -163,7 +160,7 @@ public class MenuActivity extends Activity {
  
     }
     
-    
+    /*
     private void loadProperties() {
     	FileInputStream fis;
 		try {
@@ -179,7 +176,7 @@ public class MenuActivity extends Activity {
 		}
 		
 	}
-
+*/
 
 	private void hideAllLayouts(){
     	LinearLayout menuLayout = (LinearLayout) findViewById(R.id.menuLayout);

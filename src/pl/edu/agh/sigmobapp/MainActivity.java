@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
 import pl.edu.agh.sigmobapp.json.ApiKey;
+import pl.edu.agh.sigmobapp.utils.SigmobProperties;
 
 import com.example.sigmobapp.R;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -27,13 +28,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private String version = "v.0.3.1 (2013/05/10 20:44)";
+	private String version = "v.0.3.2 (2013/05/10 21:29)";
 	
 	private EditText inputName;
 	private EditText inputPassword;
 	
-	private String hostName = "http://176.31.202.49:7777";
-	private String apiName = "/sigmob/clientapi";
+//	private String hostName = "http://176.31.202.49:7777";
+//	private String apiName = "/sigmob/clientapi";
+	
+	private SigmobProperties sigmobProperties;
 	
 	private String propertiesFile = "settings_file";
 	
@@ -41,6 +44,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		sigmobProperties = SigmobProperties.getInstance();
 		
 		loadProperties();
 		
@@ -61,7 +65,7 @@ public class MainActivity extends Activity {
             	String user = inputName.getText().toString();
             	String password = inputPassword.getText().toString(); 
             	
-            	String loginAdress = hostName + apiName + "/login";
+            	String loginAdress = sigmobProperties.getHostAndApi() + "/login";
             	JSONObject responseJSON = restCommunication.doGetApiKey(loginAdress, user, password);
             	ApiKey myApi = null;
             	
@@ -73,11 +77,11 @@ public class MainActivity extends Activity {
 					myApi = objectMapper.readValue(responseJSON.toString(), ApiKey.class);
             		
 				} catch (JsonParseException e) {
-					Log.e("n", "parse exeption");
+					Log.e("n", "" + e);
 				} catch (JsonMappingException e) {
-					Log.e("n", "jsonmapping exeption");
+					Log.e("n", "" + e);
 				} catch (IOException e) {
-					Log.e("n", "io exeption");
+					Log.e("n", "" + e);
 				}
 	        	
             	TextView messagesTextView = (TextView) findViewById(R.id.messagesTextView);
@@ -100,10 +104,13 @@ public class MainActivity extends Activity {
 			Properties properties = new Properties();
 			fis = openFileInput(propertiesFile);
 			properties.loadFromXML(fis);
-			hostName = properties.getProperty("hostIP", "http://176.31.202.49:7777");
+			String hostName = properties.getProperty("hostIP", "http://176.31.202.49:7777");
+			sigmobProperties.setHostName(hostName);
+			sigmobProperties.setApiName("/sigmob/clientapi");
         	fis.close();
 		} catch (FileNotFoundException e) {
-			Log.e("n", "" + e);
+			sigmobProperties.setHostName("http://176.31.202.49:7777");
+			sigmobProperties.setApiName("/sigmob/clientapi");
 		} catch (IOException e) {
 			Log.e("n", "" + e);
 		}

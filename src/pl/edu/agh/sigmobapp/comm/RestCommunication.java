@@ -56,13 +56,13 @@ public class RestCommunication {
 			json = new JSONObject(response.toString());
 			is.close();
 		} catch (MalformedURLException e) {
-			Log.e("n", "MalformedURLException");
+			Log.e("n", "" + e);
 		} catch (ProtocolException e) {
-			Log.e("n", "ProtocolException");
+			Log.e("n", "" + e);
 		} catch (IOException e) {
-			Log.e("n", "IOException" + e);
+			Log.e("n", "" + e);
 		} catch (JSONException e) {
-			Log.e("n", "JSONException");
+			Log.e("n", "" + e);
 		}
 		return json;
 	}
@@ -109,13 +109,13 @@ public class RestCommunication {
 			is.close();
 
 		} catch (MalformedURLException e) {
-			Log.e("n", "MalformedURLException");
+			Log.e("n", "" + e);
 		} catch (ProtocolException e) {
-			Log.e("n", "ProtocolException");
+			Log.e("n", "" + e);
 		} catch (IOException e) {
-			Log.e("n", "IOException");
+			Log.e("n", "" + e);
 		} catch (JSONException e) {
-			Log.e("n", "JSONException");
+			Log.e("n", "" + e);
 		}
 
 		return json;
@@ -155,13 +155,13 @@ public class RestCommunication {
 			json = new JSONObject(response.toString());
 			is.close();
 		} catch (MalformedURLException e) {
-			Log.e("n", "MalformedURLException");
+			Log.e("n", "" + e);
 		} catch (ProtocolException e) {
-			Log.e("n", "ProtocolException");
+			Log.e("n", "" + e);
 		} catch (IOException e) {
-			Log.e("n", "IOException");
+			Log.e("n", "" + e);
 		} catch (JSONException e) {
-			Log.e("n", "JSONException");
+			Log.e("n", "" + e);
 		}
 
 		return json;
