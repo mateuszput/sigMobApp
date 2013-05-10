@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
 	private SigmobProperties sigmobProperties;
 	private String propertiesFile = "settings_file";
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
