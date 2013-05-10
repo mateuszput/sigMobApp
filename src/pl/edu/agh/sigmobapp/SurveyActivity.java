@@ -1,12 +1,9 @@
 package pl.edu.agh.sigmobapp;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 import org.json.JSONObject;
 
@@ -38,10 +35,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class SurveyActivity extends Activity {
-	private String propertiesFile = "settings_file";
-//	private String hostName; // = "http://176.31.202.49:7777";
-//	private String apiName = "/sigmob/clientapi";
-	
 	private String apikey;
 	
 	private List<RadioGroup> radioGrupsList;
@@ -53,7 +46,6 @@ public class SurveyActivity extends Activity {
         setContentView(R.layout.activity_survey);
  
         sigmobProperties = SigmobProperties.getInstance();
-//        loadProperties();
         
         Intent i = getIntent();
         apikey = i.getStringExtra("apikey");
@@ -199,22 +191,4 @@ public class SurveyActivity extends Activity {
 	}
 
 
-	/*
-	private void loadProperties() {
-//		SigmobProperties sigmobProperties = SigmobProperties.getInstance();
-		FileInputStream fis;
-		try {
-			Properties properties = new Properties();
-			fis = openFileInput(propertiesFile);
-			properties.loadFromXML(fis);
-			hostName = properties.getProperty("hostIP", "http://176.31.202.49:7777");
-        	fis.close();
-		} catch (FileNotFoundException e) {
-			Log.e("n", "" + e);
-		} catch (IOException e) {
-			Log.e("n", "" + e);
-		}
-		
-	}
-	*/
 }

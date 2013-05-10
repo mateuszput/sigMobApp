@@ -1,6 +1,5 @@
 package pl.edu.agh.sigmobapp;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,13 +8,9 @@ import java.util.Properties;
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
-import pl.edu.agh.sigmobapp.json.ApiKey;
 import pl.edu.agh.sigmobapp.utils.SigmobProperties;
 
 import com.example.sigmobapp.R;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,13 +21,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
  
 
 public class MenuActivity extends Activity {
-//	private String hostName; // = "http://176.31.202.49:7777";
-//	private String apiName = "/sigmob/clientapi";
-	
 	private String apikey;
 	private String propertiesFile = "settings_file";
 	
@@ -49,13 +40,11 @@ public class MenuActivity extends Activity {
         apikey = i.getStringExtra("apikey");
  
  
-//        loadProperties();
         EditText hostIP = (EditText) findViewById(R.id.hostIP);
         hostIP.setText(sigmobProperties.getHostName());
         
         
-        // TODO: in future move to method
-        // Binding Click event to Button
+        // Binding Click event to Button - move to method?
         Button btnClose = (Button) findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new View.OnClickListener() {
  
@@ -93,7 +82,7 @@ public class MenuActivity extends Activity {
 
 					JSONObject responseJSON = restCommunication.doPost(sigmobProperties.getHostAndApi()
 							 + "/messages", apikey, jsonToSend);
-					Log.e("n", "response: " + responseJSON.toString());
+//					Log.e("n", "response: " + responseJSON.toString());
 				}
 				messageTitle.setText("");
 				messageBody.setText("");
@@ -160,24 +149,7 @@ public class MenuActivity extends Activity {
  
     }
     
-    /*
-    private void loadProperties() {
-    	FileInputStream fis;
-		try {
-			Properties properties = new Properties();
-			fis = openFileInput(propertiesFile);
-			properties.loadFromXML(fis);
-			hostName = properties.getProperty("hostIP", "http://176.31.202.49:7777");
-        	fis.close();
-		} catch (FileNotFoundException e) {
-			Log.e("n", "" + e);
-		} catch (IOException e) {
-			Log.e("n", "" + e);
-		}
-		
-	}
-*/
-
+    
 	private void hideAllLayouts(){
     	LinearLayout menuLayout = (LinearLayout) findViewById(R.id.menuLayout);
     	menuLayout.setVisibility(LinearLayout.GONE);

@@ -28,16 +28,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private String version = "v.0.3.2 (2013/05/10 21:29)";
+	private final static String version = "v.0.3.2 (2013/05/10 21:29)";
 	
 	private EditText inputName;
 	private EditText inputPassword;
 	
-//	private String hostName = "http://176.31.202.49:7777";
-//	private String apiName = "/sigmob/clientapi";
-	
 	private SigmobProperties sigmobProperties;
-	
 	private String propertiesFile = "settings_file";
 	
 	@Override
