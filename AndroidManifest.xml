@@ -27,6 +27,7 @@
         <activity android:name="pl.edu.agh.sigmobapp.MenuActivity"></activity>
         <activity android:name="pl.edu.agh.sigmobapp.SListActivity"></activity>
         <activity android:name="pl.edu.agh.sigmobapp.SurveyActivity"></activity>
+        <activity android:name="pl.edu.agh.sigmobapp.CyclicTasksActivity"></activity>
         
     </application>
 

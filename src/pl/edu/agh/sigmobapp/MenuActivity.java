@@ -1,10 +1,5 @@
 package pl.edu.agh.sigmobapp;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
-
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
@@ -13,10 +8,8 @@ import pl.edu.agh.sigmobapp.utils.SigmobProperties;
 import com.example.sigmobapp.R;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,8 +18,6 @@ import android.widget.LinearLayout;
 
 public class MenuActivity extends Activity {
 	private String apikey;
-//	private String propertiesFile = "settings_file";
-	
 	private SigmobProperties sigmobProperties;
 	
     /** Called when the activity is first created. */
@@ -91,9 +82,6 @@ public class MenuActivity extends Activity {
         
         
         
-        // koniec przenosin
-        
-        
         Button btnSurveysList = (Button) findViewById(R.id.btnSurveysList);
         btnSurveysList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -105,6 +93,15 @@ public class MenuActivity extends Activity {
         });
         
         
+        Button btnCyclicTasks = (Button) findViewById(R.id.btnCyclicTasks);
+        btnCyclicTasks.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+            	Intent nextScreen = new Intent(getApplicationContext(), CyclicTasksActivity.class);
+               	nextScreen.putExtra("apikey", apikey);
+                startActivity(nextScreen);
+                finish();
+            }
+        });
  
     }
     
