@@ -1,3 +1,6 @@
+/.classpath
+/.project
+/.settings/org.eclipse.jdt.core.prefs
 /bin/AndroidManifest.xml
 /bin/classes.dex
 /bin/dexedLibs/android-support-v4-aafb3622c988daeae00fbeac25cb86cc.jar
