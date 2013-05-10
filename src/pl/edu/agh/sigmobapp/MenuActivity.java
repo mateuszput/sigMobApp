@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 
 public class MenuActivity extends Activity {
 	private String apikey;
-	private String propertiesFile = "settings_file";
+//	private String propertiesFile = "settings_file";
 	
 	private SigmobProperties sigmobProperties;
 	
@@ -40,10 +40,6 @@ public class MenuActivity extends Activity {
         apikey = i.getStringExtra("apikey");
  
  
-        EditText hostIP = (EditText) findViewById(R.id.hostIP);
-        hostIP.setText(sigmobProperties.getHostName());
-        
-        
         // Binding Click event to Button - move to method?
         Button btnClose = (Button) findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -94,45 +90,8 @@ public class MenuActivity extends Activity {
         });
         
         
-        Button btnPreferences = (Button) findViewById(R.id.btnPreferences);
-        btnPreferences.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-            	hideAllLayouts();
-            	LinearLayout preferencesLayout = (LinearLayout) findViewById(R.id.preferencesLayout);
-            	preferencesLayout.setVisibility(LinearLayout.VISIBLE);
-            }
-        });
         
-        
-        Button btnPreferencesSave = (Button) findViewById(R.id.btnPreferencesSave);
-        btnPreferencesSave.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-            	
-            	EditText hostIP = (EditText) findViewById(R.id.hostIP);
-            	
-            	String hostIPString = hostIP.getText().toString(); //.replaceAll("\\W", "");
-            	sigmobProperties.setHostName(hostIPString);
-
-            	FileOutputStream fos;
-				try {
-					Properties properties = new Properties();
-					properties.setProperty("hostIP", hostIPString);
-					fos = openFileOutput(propertiesFile, Context.MODE_WORLD_READABLE); //Context.MODE_PRIVATE);
-					properties.storeToXML(fos, "properties");
-	            	fos.close();
-				} catch (FileNotFoundException e) {
-					Log.e("n", "" + e);
-				} catch (IOException e) {
-					Log.e("n", "" + e);
-				}
-            	
-            	
-            	
-            	hideAllLayouts();
-            	LinearLayout menuLayout = (LinearLayout) findViewById(R.id.menuLayout);
-            	menuLayout.setVisibility(LinearLayout.VISIBLE);
-            }
-        });
+        // koniec przenosin
         
         
         Button btnSurveysList = (Button) findViewById(R.id.btnSurveysList);
@@ -155,7 +114,7 @@ public class MenuActivity extends Activity {
     	menuLayout.setVisibility(LinearLayout.GONE);
     	LinearLayout messageLayout = (LinearLayout) findViewById(R.id.messageLayout);
     	messageLayout.setVisibility(LinearLayout.GONE);
-    	LinearLayout preferencesLayout = (LinearLayout) findViewById(R.id.preferencesLayout);
-    	preferencesLayout.setVisibility(LinearLayout.GONE);
+//    	LinearLayout preferencesLayout = (LinearLayout) findViewById(R.id.preferencesLayout);
+//    	preferencesLayout.setVisibility(LinearLayout.GONE);
     }
 }

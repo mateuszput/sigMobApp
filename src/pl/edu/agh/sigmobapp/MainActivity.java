@@ -3,6 +3,7 @@ package pl.edu.agh.sigmobapp;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -19,16 +20,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private final static String version = "v.0.3.2 (2013/05/10 21:29)";
+	private final static String version = "v.0.3.3 (2013/05/10 22:19)";
 	
 	private EditText inputName;
 	private EditText inputPassword;
@@ -45,6 +48,9 @@ public class MainActivity extends Activity {
 		
 		loadProperties();
 		
+		EditText hostIP = (EditText) findViewById(R.id.hostIP);
+        hostIP.setText(sigmobProperties.getHostName());
+        
 		TextView versionText = (TextView) findViewById(R.id.appVersionTextView);
 		versionText.setText(version);
 		
@@ -55,7 +61,6 @@ public class MainActivity extends Activity {
         
         //Listening to button event - move to method this.initListeners
         btnNextScreen.setOnClickListener(new View.OnClickListener() {
- 
             public void onClick(View arg0) {
             	RestCommunication restCommunication = new RestCommunication();
             	ObjectMapper objectMapper = new ObjectMapper();
@@ -92,16 +97,67 @@ public class MainActivity extends Activity {
             	}
             }
         });
+        
+        
+        
+        Button btnPreferences = (Button) findViewById(R.id.btnPreferences);
+        btnPreferences.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+            	hideAllLayouts();
+            	LinearLayout preferencesLayout = (LinearLayout) findViewById(R.id.preferencesLayout);
+            	preferencesLayout.setVisibility(LinearLayout.VISIBLE);
+            }
+        });
+        
+        
+        Button btnPreferencesSave = (Button) findViewById(R.id.btnPreferencesSave);
+        btnPreferencesSave.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+            	EditText hostIP = (EditText) findViewById(R.id.hostIP);
+            	
+            	String hostIPString = hostIP.getText().toString(); //.replaceAll("\\W", "");
+            	sigmobProperties.setHostName(hostIPString);
+
+            	FileOutputStream fos;
+				try {
+					Properties properties = new Properties();
+					properties.setProperty("hostIP", hostIPString);
+					fos = openFileOutput(propertiesFile, Context.MODE_WORLD_READABLE); //Context.MODE_PRIVATE);
+					properties.storeToXML(fos, "properties");
+	            	fos.close();
+				} catch (FileNotFoundException e) {
+					Log.e("n", "" + e);
+				} catch (IOException e) {
+					Log.e("n", "" + e);
+				}
+            	
+            	
+            	hideAllLayouts();
+            	LinearLayout menuLayout = (LinearLayout) findViewById(R.id.my_root);
+            	menuLayout.setVisibility(LinearLayout.VISIBLE);
+            }
+        });
 		
 	}
 
+	protected void hideAllLayouts() {
+		LinearLayout menuLayout = (LinearLayout) findViewById(R.id.my_root);
+    	menuLayout.setVisibility(LinearLayout.GONE);
+    	LinearLayout messageLayout = (LinearLayout) findViewById(R.id.preferencesLayout);
+    	messageLayout.setVisibility(LinearLayout.GONE);
+		
+	}
+
+	
 	private void loadProperties() {
     	FileInputStream fis;
 		try {
 			Properties properties = new Properties();
 			fis = openFileInput(propertiesFile);
 			properties.loadFromXML(fis);
+			
 			String hostName = properties.getProperty("hostIP", "http://176.31.202.49:7777");
+			
 			sigmobProperties.setHostName(hostName);
 			sigmobProperties.setApiName("/sigmob/clientapi");
         	fis.close();
