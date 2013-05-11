@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
 				try {
 					Properties properties = new Properties();
 					properties.setProperty("hostIP", hostIPString);
-					fos = openFileOutput(propertiesFile, Context.MODE_WORLD_READABLE); //Context.MODE_PRIVATE);
+					fos = openFileOutput(propertiesFile, Context.MODE_PRIVATE); //Context.MODE_PRIVATE); MODE_WORLD_READABLE
 					properties.storeToXML(fos, "properties");
 	            	fos.close();
 				} catch (FileNotFoundException e) {
