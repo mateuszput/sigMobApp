@@ -29,6 +29,9 @@
         <activity android:name="pl.edu.agh.sigmobapp.SurveyActivity"></activity>
         <activity android:name="pl.edu.agh.sigmobapp.CyclicTasksActivity"></activity>
         
+        
+        <service android:enabled="true" android:name="pl.edu.agh.sigmobapp.cyclic.CyclicLocationService" />
+
     </application>
 
 </manifest>

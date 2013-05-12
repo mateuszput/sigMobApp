@@ -218,7 +218,7 @@ private class LongOperation extends AsyncTask<String, Void, String> {
     			return "Connection error.";
     		}
 			myApi = objectMapper.readValue(responseJSON.toString(), ApiKey.class);
-    		
+			Log.e("n", "" + responseJSON.toString());
 		} catch (JsonParseException e) {
 			Log.e("n", "" + e);
 		} catch (JsonMappingException e) {
