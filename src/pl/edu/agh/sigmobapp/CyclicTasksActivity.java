@@ -98,9 +98,6 @@ public class CyclicTasksActivity extends Activity{
 		
 	}
 
-//	android:text="@string/meat"
-//	        android:onClick="onCheckboxClicked"
-	
 	
 
 }

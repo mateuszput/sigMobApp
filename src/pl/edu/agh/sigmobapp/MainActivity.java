@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
 import pl.edu.agh.sigmobapp.json.ApiKey;
+import pl.edu.agh.sigmobapp.utils.Config;
 import pl.edu.agh.sigmobapp.utils.SigmobProperties;
 
 import com.example.sigmobapp.R;
@@ -46,6 +47,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		Config.context = this;
 		/*
 		StrictMode.ThreadPolicy policy = new StrictMode.
 		ThreadPolicy.Builder().permitAll().build();
