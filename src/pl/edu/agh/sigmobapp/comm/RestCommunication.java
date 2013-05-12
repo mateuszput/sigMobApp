@@ -137,7 +137,7 @@ public class RestCommunication {
 			connection.setRequestProperty("Accept", "application/json");
 			connection.setRequestProperty("Authorization", "apikey=" + apiKey);
 			
-			connection.setDoOutput(true);
+			//connection.setDoOutput(true); z tym nie dzia³a na Android 4.*
 			connection.setReadTimeout(10000);
 			connection.connect();
 
