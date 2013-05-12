@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -62,6 +63,9 @@ public class MainActivity extends Activity {
         //Listening to button event - move to method this.initListeners
         btnNextScreen.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
+            	LongOperation longOperation = new LongOperation();
+            	longOperation.execute("test");
+            	/*
             	RestCommunication restCommunication = new RestCommunication();
             	ObjectMapper objectMapper = new ObjectMapper();
             	String user = inputName.getText().toString();
@@ -95,7 +99,11 @@ public class MainActivity extends Activity {
                 	nextScreen.putExtra("apikey", myApi.getApikey());
                 	startActivity(nextScreen);
             	}
+            
+            */
             }
+            
+            
         });
         
         
@@ -178,4 +186,73 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
+
+
+
+
+private class LongOperation extends AsyncTask<String, Void, String> {
+
+    @Override
+    protected String doInBackground(String... params) {
+    	RestCommunication restCommunication = new RestCommunication();
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	String user = inputName.getText().toString();
+    	String password = inputPassword.getText().toString(); 
+    	
+    	String loginAdress = sigmobProperties.getHostAndApi() + "/login";
+    	JSONObject responseJSON = restCommunication.doGetApiKey(loginAdress, user, password);
+    	ApiKey myApi = null;
+    	
+    	String returnString = "";
+    	try {
+    		if (responseJSON == null) {
+    			Log.e("n", "responseJSON null ");
+    			return "Connection error.";
+    		}
+			myApi = objectMapper.readValue(responseJSON.toString(), ApiKey.class);
+    		
+		} catch (JsonParseException e) {
+			Log.e("n", "" + e);
+		} catch (JsonMappingException e) {
+			Log.e("n", "" + e);
+		} catch (IOException e) {
+			Log.e("n", "" + e);
+		}
+    	
+    	
+    	if(myApi == null){
+//    		messagesTextView.setText("Login incorrect.");
+    		returnString = "Login incorrect.";
+//    		return "Login incorrect.";
+    	} else {
+//    		messagesTextView.setText("");
+    		returnString = "";
+    		Intent nextScreen = new Intent(getApplicationContext(), MenuActivity.class);
+        	nextScreen.putExtra("apikey", myApi.getApikey());
+        	startActivity(nextScreen);
+    	}
+    	
+    	
+    	
+          return returnString;
+    }      
+
+    @Override
+    protected void onPostExecute(String result) {
+          TextView txt = (TextView) findViewById(R.id.messagesTextView);
+          txt.setText(result); // txt.setText(result);
+          //might want to change "executed" for the returned string passed into onPostExecute() but that is upto you
+    }
+
+    @Override
+    protected void onPreExecute() {
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+    }
+}   
+
+
+
 }
