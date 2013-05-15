@@ -1,5 +1,7 @@
 package pl.edu.agh.sigmobapp;
 
+import java.io.File;
+
 import org.json.JSONObject;
 
 import pl.edu.agh.sigmobapp.comm.RestCommunication;
@@ -11,6 +13,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +58,18 @@ public class MenuActivity extends Activity {
             	messageLayout.setVisibility(LinearLayout.VISIBLE);
             }
         });
+        
+    	
+        Button btnMesssageSendFile = (Button) findViewById(R.id.btnMesssageSendFile);
+        btnMesssageSendFile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+				File file = getFileStreamPath("samplefile.txt");
+				if (file.exists())
+					sendFile("samplefile.txt", file);
+				
+            }
+        });
+        
         
         Button btnMessageSend = (Button) findViewById(R.id.btnMessageSend);
         btnMessageSend.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +124,17 @@ public class MenuActivity extends Activity {
             }
         });
  
+    }
+    
+    
+    private void sendFile(String file, File fileHandler){
+    	Log.e("n", "my file exist");
+    	RestCommunication restCommunication = new RestCommunication();
+    	JSONObject jsonResponse = restCommunication.doPostFile(sigmobProperties.getHostAndApi() +  "/files", apikey, file, fileHandler);
+    	// Zamienic na obiekt z json
+    	// ukryc przycisk wyslij plik
+    	// Pokazac labelke z przesylanym plikiem
+    	Log.e("n", "file id: " + jsonResponse.toString());
     }
     
     

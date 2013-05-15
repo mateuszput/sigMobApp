@@ -86,6 +86,13 @@
             android:layout_marginBottom="10dip"
             android:inputType="textMultiLine" />
 
+		<Button
+            android:id="@+id/btnMesssageSendFile"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:text="Send file" />
+        
         <Button
             android:id="@+id/btnMessageSend"
             android:layout_width="fill_parent"

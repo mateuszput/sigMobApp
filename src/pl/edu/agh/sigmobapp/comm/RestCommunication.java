@@ -21,14 +21,16 @@ import android.util.Log;
 
 public class RestCommunication {
 
-	public JSONObject doPostFile() {
+	
+	// TODO: uruchomic w nowym watku ?
+	public JSONObject doPostFile(String stringURL, String apiKey, String filePath, File fileHandler) {
 		JSONObject json = null;
 		HttpURLConnection connection = null;
 		DataOutputStream outputStream = null;
-		DataInputStream inputStream = null;
+//		DataInputStream inputStream = null;
 
-		String pathToOurFile = "/data/file_to_send.mp3";
-		String urlServer = "http://192.168.1.1/handle_upload.php";
+//		String pathToOurFile = "/data/file_to_send.mp3";
+//		String urlServer = "http://192.168.1.1/handle_upload.php";
 		String lineEnd = "\r\n";
 		String twoHyphens = "--";
 		String boundary = "*****";
@@ -38,10 +40,11 @@ public class RestCommunication {
 		int maxBufferSize = 1 * 1024 * 1024;
 
 		try {
-			FileInputStream fileInputStream = new FileInputStream(new File(
-					pathToOurFile));
-
-			URL url = new URL(urlServer);
+			FileInputStream fileInputStream = new FileInputStream(fileHandler);
+			
+//			FileInputStream fIn = openFileInput("samplefile.txt");
+			
+			URL url = new URL(stringURL);
 			connection = (HttpURLConnection) url.openConnection();
 
 			// Allow Inputs & Outputs
@@ -56,17 +59,21 @@ public class RestCommunication {
 			connection.setRequestProperty("Content-Type",
 					"multipart/form-data;boundary=" + boundary);
 
+			connection.setRequestProperty("Accept", "application/json");
+			connection.setRequestProperty("Authorization", "apikey=" + apiKey);
+			
 			outputStream = new DataOutputStream(connection.getOutputStream());
 			outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+			
+//			uploadedfile
 			outputStream
-					.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\""
-							+ pathToOurFile + "\"" + lineEnd);
+					.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\""
+							+ filePath + "\"" + lineEnd);
 			outputStream.writeBytes(lineEnd);
 
 			bytesAvailable = fileInputStream.available();
 			bufferSize = Math.min(bytesAvailable, maxBufferSize);
 			buffer = new byte[bufferSize];
-
 			// Read file
 			bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 
@@ -77,22 +84,40 @@ public class RestCommunication {
 				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 			}
 
+			Log.e("n", "Log 3");
 			outputStream.writeBytes(lineEnd);
 			outputStream.writeBytes(twoHyphens + boundary + twoHyphens
 					+ lineEnd);
 
 			// Responses from the server (code and message)
-//			serverResponseCode = connection.getResponseCode();
-//			serverResponseMessage = connection.getResponseMessage();
-
-			json = new JSONObject(connection.getResponseMessage());
-//			is.close();
+			/*
+			int serverResponseCode = connection.getResponseCode();
+			Log.e("n", "Log 3 rc: " + serverResponseCode);
+			String serverResponseMessage = connection.getResponseMessage();
+			Log.e("n", "Log 3 rm: " + serverResponseMessage);
+			*/
+			
 			
 			fileInputStream.close();
 			outputStream.flush();
 			outputStream.close();
+			
+			InputStream is = connection.getInputStream();
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(is));
+			
+			String line;
+			StringBuffer response = new StringBuffer();
+			while ((line = bufferedReader.readLine()) != null) {
+				response.append(line);
+				response.append('\r');
+			}
+			bufferedReader.close();
+
+			json = new JSONObject(response.toString());
+			is.close();
+
 		} catch (Exception e) {
-			// Exception handling
 			Log.e("n", "" + e);
 		}
 

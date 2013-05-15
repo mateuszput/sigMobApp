@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Properties;
 
 import org.json.JSONObject;
@@ -134,14 +135,32 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
             	EditText hostIP = (EditText) findViewById(R.id.hostIP);
             	
-            	// TMP
-            	File f = new File("/data/app/com.example.sigmobapp-2.apk");
-            	if(f.exists()) { 
-            		Log.e("n", "file exist" );
-            		
-            	} else {
-            		Log.e("n", "file doesn't exist");
-            	}
+            	
+            	/*
+            	try {
+                // catches IOException below
+                final String TESTSTRING = new String("Hello Android");
+
+                FileOutputStream fOut;
+				
+				fOut = openFileOutput("samplefile.txt", MODE_WORLD_READABLE);
+				
+                OutputStreamWriter osw = new OutputStreamWriter(fOut); 
+                
+                // Write the string to the file
+                osw.write(TESTSTRING);
+
+                osw.flush();
+                osw.close();
+            	
+            	} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                */
             	
             	
             	String hostIPString = hostIP.getText().toString(); //.replaceAll("\\W", "");
