@@ -1,6 +1,10 @@
 package pl.edu.agh.sigmobapp.comm;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,6 +21,84 @@ import android.util.Log;
 
 public class RestCommunication {
 
+	public JSONObject doPostFile() {
+		JSONObject json = null;
+		HttpURLConnection connection = null;
+		DataOutputStream outputStream = null;
+		DataInputStream inputStream = null;
+
+		String pathToOurFile = "/data/file_to_send.mp3";
+		String urlServer = "http://192.168.1.1/handle_upload.php";
+		String lineEnd = "\r\n";
+		String twoHyphens = "--";
+		String boundary = "*****";
+
+		int bytesRead, bytesAvailable, bufferSize;
+		byte[] buffer;
+		int maxBufferSize = 1 * 1024 * 1024;
+
+		try {
+			FileInputStream fileInputStream = new FileInputStream(new File(
+					pathToOurFile));
+
+			URL url = new URL(urlServer);
+			connection = (HttpURLConnection) url.openConnection();
+
+			// Allow Inputs & Outputs
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
+			connection.setUseCaches(false);
+
+			// Enable POST method
+			connection.setRequestMethod("POST");
+
+			connection.setRequestProperty("Connection", "Keep-Alive");
+			connection.setRequestProperty("Content-Type",
+					"multipart/form-data;boundary=" + boundary);
+
+			outputStream = new DataOutputStream(connection.getOutputStream());
+			outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+			outputStream
+					.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\""
+							+ pathToOurFile + "\"" + lineEnd);
+			outputStream.writeBytes(lineEnd);
+
+			bytesAvailable = fileInputStream.available();
+			bufferSize = Math.min(bytesAvailable, maxBufferSize);
+			buffer = new byte[bufferSize];
+
+			// Read file
+			bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+			while (bytesRead > 0) {
+				outputStream.write(buffer, 0, bufferSize);
+				bytesAvailable = fileInputStream.available();
+				bufferSize = Math.min(bytesAvailable, maxBufferSize);
+				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+			}
+
+			outputStream.writeBytes(lineEnd);
+			outputStream.writeBytes(twoHyphens + boundary + twoHyphens
+					+ lineEnd);
+
+			// Responses from the server (code and message)
+//			serverResponseCode = connection.getResponseCode();
+//			serverResponseMessage = connection.getResponseMessage();
+
+			json = new JSONObject(connection.getResponseMessage());
+//			is.close();
+			
+			fileInputStream.close();
+			outputStream.flush();
+			outputStream.close();
+		} catch (Exception e) {
+			// Exception handling
+			Log.e("n", "" + e);
+		}
+
+		return json;
+	}
+	
 	
 	public void doPostNoAnswer(String stringURL, String apiKey, String jsonToSend) {
 		HttpURLConnection connection = null;

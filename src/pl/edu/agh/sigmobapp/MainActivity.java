@@ -1,6 +1,7 @@
 package pl.edu.agh.sigmobapp;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -132,6 +133,16 @@ public class MainActivity extends Activity {
         btnPreferencesSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
             	EditText hostIP = (EditText) findViewById(R.id.hostIP);
+            	
+            	// TMP
+            	File f = new File("/data/app/com.example.sigmobapp-2.apk");
+            	if(f.exists()) { 
+            		Log.e("n", "file exist" );
+            		
+            	} else {
+            		Log.e("n", "file doesn't exist");
+            	}
+            	
             	
             	String hostIPString = hostIP.getText().toString(); //.replaceAll("\\W", "");
             	sigmobProperties.setHostName(hostIPString);
