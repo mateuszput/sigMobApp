@@ -63,7 +63,9 @@ public class CyclicTasksActivity extends Activity{
             	
             	if(cyclicLocation.isChecked()) {
             		
-            		startService(new Intent(getApplicationContext(), CyclicLocationService.class));
+            		Intent intent = new Intent(getApplicationContext(), CyclicLocationService.class);
+            		intent.putExtra("apikey", apikey);
+            		startService(intent);
             		// create service
             		
 //            		Intent intent = new Intent(this, CyclicLocationService.class);
