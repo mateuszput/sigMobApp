@@ -18,6 +18,61 @@ import android.util.Log;
 public class RestCommunication {
 
 	
+	public void doPostNoAnswer(String stringURL, String apiKey, String jsonToSend) {
+		HttpURLConnection connection = null;
+
+		URL url;
+		try {
+			url = new URL(stringURL);
+
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Content-Type", "application/json");
+			connection.setRequestProperty("Accept", "application/json");
+			connection.setRequestProperty("Authorization", "apikey=" + apiKey);
+			connection.setDoOutput(true);
+			connection.setReadTimeout(10000);
+			connection.connect();
+			
+			OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+	        wr.write(jsonToSend);
+	        wr.flush();
+	        wr.close();
+//	        Log.e("n", "test 9 ");
+	        
+	        /*
+			InputStream is = connection.getInputStream();
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(is));
+			String line;
+			Log.e("n", "test 10 ");
+			
+			StringBuffer response = new StringBuffer();
+			while ((line = bufferedReader.readLine()) != null) {
+				response.append(line);
+				response.append('\r');
+			}
+			bufferedReader.close();
+			
+			Log.e("n", "test 11 ");
+			json = new JSONObject(response.toString());
+			is.close();
+			*/
+		} catch (MalformedURLException e) {
+			Log.e("n", "" + e);
+		} catch (ProtocolException e) {
+			Log.e("n", "" + e);
+		} catch (IOException e) {
+			Log.e("n", "" + e);
+		}
+//		catch (JSONException e) {
+//			Log.e("n", "" + e);
+//		}
+//		return json;
+	}
+	
+	
+	
 	public JSONObject doPost(String stringURL, String apiKey, String jsonToSend) {
 		JSONObject json = null;
 		HttpURLConnection connection = null;
@@ -31,7 +86,6 @@ public class RestCommunication {
 			connection.setRequestProperty("Content-Type", "application/json");
 			connection.setRequestProperty("Accept", "application/json");
 			connection.setRequestProperty("Authorization", "apikey=" + apiKey);
-			
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			connection.setReadTimeout(10000);
@@ -41,7 +95,6 @@ public class RestCommunication {
 	        wr.write(jsonToSend);
 	        wr.flush();
 	        wr.close();
-	        
 			InputStream is = connection.getInputStream();
 			BufferedReader bufferedReader = new BufferedReader(
 					new InputStreamReader(is));

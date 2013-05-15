@@ -34,7 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private final static String version = "v.0.3.3 (2013/05/10 22:19)";
+	private final static String version = "v.0.4.0 (2013/05/15 20:35)";
 	
 	private EditText inputName;
 	private EditText inputPassword;
