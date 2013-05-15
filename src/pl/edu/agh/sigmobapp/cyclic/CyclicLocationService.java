@@ -170,7 +170,9 @@ public class CyclicLocationService extends Service {
 			String adress = "/response/" + taskNumber + "/location";
 			restCommunication.doPostNoAnswer(sigmobProperties.getHostAndApi()
 					+ adress, apikey, jsonToSend);
+			Log.e(TAG, "sending to: " + sigmobProperties.getHostAndApi() + adress);
 			Log.d(TAG, "location response ok ");
+			Log.d(TAG, "apikey " + apikey);
 		}
 
 		private int getLocationTask() {
