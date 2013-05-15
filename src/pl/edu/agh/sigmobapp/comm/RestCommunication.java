@@ -31,7 +31,7 @@ public class RestCommunication {
 			connection.setRequestProperty("Accept", "application/json");
 			connection.setRequestProperty("Authorization", "apikey=" + apiKey);
 			connection.setDoOutput(true);
-			connection.setDoInput(true);
+//			connection.setDoInput(true);
 			connection.setReadTimeout(10000);
 			connection.connect();
 			
@@ -39,11 +39,11 @@ public class RestCommunication {
 	        wr.write(jsonToSend);
 	        wr.flush();
 	        wr.close();
-//	        Log.e("n", "test 9 ");
 	        
 	        int serverResponseCode = connection.getResponseCode();
 	        Log.e("n", "test: " + serverResponseCode);
 	        
+	        /*
 			InputStream is = connection.getErrorStream();
 			BufferedReader bufferedReader = new BufferedReader(
 					new InputStreamReader(is));
@@ -58,21 +58,17 @@ public class RestCommunication {
 			bufferedReader.close();
 			
 			Log.e("n", "test 11 ");
-//			json = new JSONObject(response.toString());
 			is.close();
 			Log.e("n", "resp: " + response.toString());
+			*/
 			
 		} catch (MalformedURLException e) {
-			Log.e("n", "1: " + e);
+			Log.e("n", "" + e);
 		} catch (ProtocolException e) {
-			Log.e("n", "2: " + e);
+			Log.e("n", "" + e);
 		} catch (IOException e) {
-			Log.e("n", "3: " + e);
+			Log.e("n", "" + e);
 		}
-//		catch (JSONException e) {
-//			Log.e("n", "" + e);
-//		}
-//		return json;
 	}
 	
 	

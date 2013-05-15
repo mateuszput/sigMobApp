@@ -42,8 +42,6 @@ public class CyclicLocationService extends Service {
 	public void onCreate() {
 		// Toast.makeText(this, "Congrats! MyService Created",
 		// Toast.LENGTH_LONG).show();
-		// Intent i = getIntent();
-		// apikey = i.getStringExtra("apikey");
 		sigmobProperties = SigmobProperties.getInstance();
 
 		Log.d(TAG, "onCreate");
@@ -64,7 +62,6 @@ public class CyclicLocationService extends Service {
 
 	@Override
 	public void onDestroy() {
-		// Toast.makeText(this, "MyService Stopped", Toast.LENGTH_LONG).show();
 		Log.d(TAG, "onDestroy");
 		cyclicLocationThread.stop();
 	}
@@ -88,14 +85,7 @@ public class CyclicLocationService extends Service {
 				if (isCancelled())
 					break;
 
-				// TODO: send request to server
-				// send current location
-				// apikey - uzyc
-
-				// get task id
 				int taskNumber = getLocationTask();
-
-				// if task id = -1 - nic nie rob
 
 				if (taskNumber != -1) {
 
@@ -118,21 +108,15 @@ public class CyclicLocationService extends Service {
 						}
 
 						DateFormat df = new SimpleDateFormat(
-								"yyyy-MM-dd'T'HH:mm'Z'");
+								"yyyy-MM-dd'T'HH:mm:ss'Z'");
 						String nowAsString = df.format(new Date());
-						// latitude = 1.0;
-						// longitude = 1.0;
-						// nowAsString = "2013-05-15T19:50:50Z";
-						// 2013-05-15 19:51:25.0
-						// 2013-05-15 19:34:49.0
+						
 						String jsonToSend = "{\"obtainedAt\":\"" + nowAsString
 								+ "\", \"longitude\":\"" + longitude
 								+ "\", \"latitude\":\"" + latitude + "\"}";
 						
 						Log.e("n", "js: " + jsonToSend);
 						sendLocation(apikey, taskNumber, jsonToSend);
-
-						// Log.e("n", "la, lo: " + latitude + ", " + longitude);
 					}
 
 				}

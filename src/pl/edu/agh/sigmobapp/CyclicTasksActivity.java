@@ -6,9 +6,6 @@ import pl.edu.agh.sigmobapp.utils.SigmobProperties;
 import com.example.sigmobapp.R;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,7 +20,6 @@ public class CyclicTasksActivity extends Activity{
 	private SigmobProperties sigmobProperties;
 	private static final String preferencesFile = "sigmob_prefs_file";
 
-//	android:enabled="false"
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,14 +32,12 @@ public class CyclicTasksActivity extends Activity{
         
         CheckBox cyclicLocation = (CheckBox) findViewById(R.id.cyclicLocation);
         cyclicLocation.setTextColor(Color.parseColor("#000000"));
-//        cyclicLocation.setChecked(true);
         cyclicLocation.setText("Allow location tasks");
         
      // Restore preferences
         SharedPreferences settings = getSharedPreferences(preferencesFile, 0);
         boolean cyclicLocationPref = settings.getBoolean("cyclicLocation", false);
         cyclicLocation.setChecked(cyclicLocationPref);
-//        setSilent(silent);
 
         
         
@@ -51,8 +45,6 @@ public class CyclicTasksActivity extends Activity{
             public void onClick(View arg0) {
             	CheckBox cyclicLocation = (CheckBox) findViewById(R.id.cyclicLocation);
             	Log.e("n", "checked: " + cyclicLocation.isChecked());
-            	
-//            	Intent intent = new Intent(getApplicationContext(), CyclicLocationService.class);
             	
             	SharedPreferences settings = getSharedPreferences(preferencesFile, 0);
                 SharedPreferences.Editor editor = settings.edit();
@@ -62,30 +54,17 @@ public class CyclicTasksActivity extends Activity{
                 
             	
             	if(cyclicLocation.isChecked()) {
-            		
             		Intent intent = new Intent(getApplicationContext(), CyclicLocationService.class);
             		intent.putExtra("apikey", apikey);
             		startService(intent);
-            		// create service
-            		
-//            		Intent intent = new Intent(this, CyclicLocationService.class);
-//            		Intent cyclicLocationService = new Intent(getApplicationContext(), CyclicLocationService.class);
-//                    startActivity(cyclicLocationService);
-                    
-                    
-//                    AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                    // Start every 30 seconds
-//                    alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30*1000, pintent); 
                  
             	} else {
-            		// kill service
             		stopService(new Intent(getApplicationContext(), CyclicLocationService.class));
+            		
             	}
             	
             }
         });
-        
-        
         
         
         Button btnCloseCyclic = (Button) findViewById(R.id.btnCloseCyclic);
