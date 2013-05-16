@@ -183,7 +183,8 @@ public class MenuActivity extends Activity {
             	EditText messageBody = (EditText) findViewById(R.id.messageBody);
             	TextView textSelectedFile = (TextView) findViewById(R.id.textSelectedFile);
             	
-				String fileName = textSelectedFile.getText().toString();
+//				String fileName = textSelectedFile.getText().toString();
+				String fileName = file.getName();
             	
             	String titleString = messageTitle.getText().toString().replaceAll("\\W", "");
             	String messageString = messageBody.getText().toString().replaceAll("\\W", "");
