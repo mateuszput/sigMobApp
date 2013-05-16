@@ -110,4 +110,13 @@ public class SListActivity extends Activity {
         
 	}
 	
+	
+	@Override
+	public void onBackPressed () {
+		Intent menuScreen = new Intent(getApplicationContext(), MenuActivity.class);
+    	menuScreen.putExtra("apikey", apikey);
+    	finish();
+    	startActivity(menuScreen);
+	}
+	
 }

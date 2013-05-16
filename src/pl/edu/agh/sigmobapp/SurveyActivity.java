@@ -197,4 +197,11 @@ public class SurveyActivity extends Activity {
 	}
 
 
+	@Override
+	public void onBackPressed () {
+		Intent sListScreen = new Intent(getApplicationContext(), SListActivity.class);
+    	sListScreen.putExtra("apikey", apikey);
+    	finish();
+    	startActivity(sListScreen);
+	}
 }

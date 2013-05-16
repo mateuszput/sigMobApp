@@ -76,7 +76,24 @@ public class CyclicTasksActivity extends Activity{
                 finish();
             }
         });
+        
+        
+//        Button backButton = (Button)this.findViewById(R.id.back);
+//        backButton.setOnClickListener(new OnClickListener() {
+//          @Override
+//          public void onClick(View v) {
+//            finish();
+//          }
+//        });
 		
+	}
+	
+	@Override
+	public void onBackPressed () {
+		Intent nextScreen = new Intent(getApplicationContext(), MenuActivity.class);
+       	nextScreen.putExtra("apikey", apikey);
+        startActivity(nextScreen);
+		finish();
 	}
 
 	

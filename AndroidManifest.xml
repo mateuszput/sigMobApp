@@ -30,6 +30,24 @@
         <activity android:name="pl.edu.agh.sigmobapp.SurveyActivity"></activity>
         <activity android:name="pl.edu.agh.sigmobapp.CyclicTasksActivity"></activity>
         
+        <activity android:name="com.androidexplorer.AndroidExplorer"></activity>
+        
+        <activity
+            android:name="com.ipaulpro.afilechooser.FileChooserActivity"
+            android:exported="false"
+            android:icon="@drawable/ic_chooser"
+            android:label="@string/choose_file"
+            
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
         
         <service android:enabled="true" android:name="pl.edu.agh.sigmobapp.cyclic.CyclicLocationService" />
 
