@@ -33,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private final static String version = "v.0.5.1 (2013/05/17 00:47)";
+	private final static String version = "v.0.5.3 (2013/05/17 21:06)";
 	
 	private EditText inputName;
 	private EditText inputPassword;
@@ -74,47 +74,8 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
             	LongOperation longOperation = new LongOperation();
             	longOperation.execute("test");
-            	/*
-            	RestCommunication restCommunication = new RestCommunication();
-            	ObjectMapper objectMapper = new ObjectMapper();
-            	String user = inputName.getText().toString();
-            	String password = inputPassword.getText().toString(); 
-            	
-            	String loginAdress = sigmobProperties.getHostAndApi() + "/login";
-            	JSONObject responseJSON = restCommunication.doGetApiKey(loginAdress, user, password);
-            	ApiKey myApi = null;
-            	
-            	try {
-            		if (responseJSON == null) {
-            			Log.e("n", "responseJSON null ");
-            			return;
-            		}
-					myApi = objectMapper.readValue(responseJSON.toString(), ApiKey.class);
-            		
-				} catch (JsonParseException e) {
-					Log.e("n", "" + e);
-				} catch (JsonMappingException e) {
-					Log.e("n", "" + e);
-				} catch (IOException e) {
-					Log.e("n", "" + e);
-				}
-	        	
-            	TextView messagesTextView = (TextView) findViewById(R.id.messagesTextView);
-            	if(myApi == null){
-            		messagesTextView.setText("Login incorrect.");
-            	} else {
-            		messagesTextView.setText("");
-            		Intent nextScreen = new Intent(getApplicationContext(), MenuActivity.class);
-                	nextScreen.putExtra("apikey", myApi.getApikey());
-                	startActivity(nextScreen);
-            	}
-            
-            */
             }
-            
-            
         });
-        
         
         
         Button btnPreferences = (Button) findViewById(R.id.btnPreferences);
@@ -131,34 +92,6 @@ public class MainActivity extends Activity {
         btnPreferencesSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
             	EditText hostIP = (EditText) findViewById(R.id.hostIP);
-            	
-            	
-            	/*
-            	try {
-                // catches IOException below
-                final String TESTSTRING = new String("Hello Android");
-
-                FileOutputStream fOut;
-				
-				fOut = openFileOutput("samplefile.txt", MODE_WORLD_READABLE);
-				
-                OutputStreamWriter osw = new OutputStreamWriter(fOut); 
-                
-                // Write the string to the file
-                osw.write(TESTSTRING);
-
-                osw.flush();
-                osw.close();
-            	
-            	} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                */
-            	
             	
             	String hostIPString = hostIP.getText().toString(); //.replaceAll("\\W", "");
             	sigmobProperties.setHostName(hostIPString);
@@ -225,71 +158,64 @@ public class MainActivity extends Activity {
 	
 
 
+	private class LongOperation extends AsyncTask<String, Void, String> {
 
+		@Override
+		protected String doInBackground(String... params) {
+			RestCommunication restCommunication = new RestCommunication();
+			ObjectMapper objectMapper = new ObjectMapper();
+			String user = inputName.getText().toString();
+			String password = inputPassword.getText().toString();
 
-private class LongOperation extends AsyncTask<String, Void, String> {
+			String loginAdress = sigmobProperties.getHostAndApi() + "/login";
+			JSONObject responseJSON = restCommunication.doGetApiKey(
+					loginAdress, user, password);
+			ApiKey myApi = null;
 
-    @Override
-    protected String doInBackground(String... params) {
-    	RestCommunication restCommunication = new RestCommunication();
-    	ObjectMapper objectMapper = new ObjectMapper();
-    	String user = inputName.getText().toString();
-    	String password = inputPassword.getText().toString(); 
-    	
-    	String loginAdress = sigmobProperties.getHostAndApi() + "/login";
-    	JSONObject responseJSON = restCommunication.doGetApiKey(loginAdress, user, password);
-    	ApiKey myApi = null;
-    	
-    	String returnString = "";
-    	try {
-    		if (responseJSON == null) {
-    			Log.e("n", "responseJSON null ");
-    			return "Connection error.";
-    		}
-			myApi = objectMapper.readValue(responseJSON.toString(), ApiKey.class);
-			Log.e("n", "" + responseJSON.toString());
-		} catch (JsonParseException e) {
-			Log.e("n", "" + e);
-		} catch (JsonMappingException e) {
-			Log.e("n", "" + e);
-		} catch (IOException e) {
-			Log.e("n", "" + e);
+			String returnString = "";
+			try {
+				if (responseJSON == null) {
+					Log.e("n", "responseJSON null ");
+					return "Connection error.";
+				}
+				myApi = objectMapper.readValue(responseJSON.toString(),
+						ApiKey.class);
+				Log.e("n", "" + responseJSON.toString());
+			} catch (JsonParseException e) {
+				Log.e("n", "" + e);
+			} catch (JsonMappingException e) {
+				Log.e("n", "" + e);
+			} catch (IOException e) {
+				Log.e("n", "" + e);
+			}
+
+			if (myApi == null) {
+				returnString = "Login incorrect.";
+			} else {
+				returnString = "";
+				Intent nextScreen = new Intent(getApplicationContext(),
+						MenuActivity.class);
+				nextScreen.putExtra("apikey", myApi.getApikey());
+				startActivity(nextScreen);
+			}
+
+			return returnString;
 		}
-    	
-    	
-    	if(myApi == null){
-//    		messagesTextView.setText("Login incorrect.");
-    		returnString = "Login incorrect.";
-//    		return "Login incorrect.";
-    	} else {
-//    		messagesTextView.setText("");
-    		returnString = "";
-    		Intent nextScreen = new Intent(getApplicationContext(), MenuActivity.class);
-        	nextScreen.putExtra("apikey", myApi.getApikey());
-        	startActivity(nextScreen);
-    	}
-    	
-    	
-    	
-          return returnString;
-    }      
 
-    @Override
-    protected void onPostExecute(String result) {
-          TextView txt = (TextView) findViewById(R.id.messagesTextView);
-          txt.setText(result); // txt.setText(result);
-          //might want to change "executed" for the returned string passed into onPostExecute() but that is upto you
-    }
+		@Override
+		protected void onPostExecute(String result) {
+			TextView txt = (TextView) findViewById(R.id.messagesTextView);
+			txt.setText(result);
+		}
 
-    @Override
-    protected void onPreExecute() {
-    }
+		@Override
+		protected void onPreExecute() {
+		}
 
-    @Override
-    protected void onProgressUpdate(Void... values) {
-    }
-}   
-
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+	}
 
 
 }

@@ -1,7 +1,6 @@
 package pl.edu.agh.sigmobapp.comm;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,15 +21,11 @@ import android.util.Log;
 public class RestCommunication {
 
 	
-	// TODO: uruchomic w nowym watku ?
 	public JSONObject doPostFile(String stringURL, String apiKey, String filePath, File fileHandler) {
 		JSONObject json = null;
 		HttpURLConnection connection = null;
 		DataOutputStream outputStream = null;
-//		DataInputStream inputStream = null;
 
-//		String pathToOurFile = "/data/file_to_send.mp3";
-//		String urlServer = "http://192.168.1.1/handle_upload.php";
 		String lineEnd = "\r\n";
 		String twoHyphens = "--";
 		String boundary = "*****";
@@ -41,8 +36,6 @@ public class RestCommunication {
 
 		try {
 			FileInputStream fileInputStream = new FileInputStream(fileHandler);
-			
-//			FileInputStream fIn = openFileInput("samplefile.txt");
 			
 			URL url = new URL(stringURL);
 			connection = (HttpURLConnection) url.openConnection();
@@ -84,7 +77,6 @@ public class RestCommunication {
 				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 			}
 
-			Log.e("n", "Log 3");
 			outputStream.writeBytes(lineEnd);
 			outputStream.writeBytes(twoHyphens + boundary + twoHyphens
 					+ lineEnd);
@@ -138,7 +130,6 @@ public class RestCommunication {
 			connection.setRequestProperty("Accept", "application/json");
 			connection.setRequestProperty("Authorization", "apikey=" + apiKey);
 			connection.setDoOutput(true);
-//			connection.setDoInput(true);
 			connection.setReadTimeout(10000);
 			connection.connect();
 			
@@ -150,25 +141,6 @@ public class RestCommunication {
 	        int serverResponseCode = connection.getResponseCode();
 	        Log.e("n", "test: " + serverResponseCode);
 	        
-	        /*
-			InputStream is = connection.getErrorStream();
-			BufferedReader bufferedReader = new BufferedReader(
-					new InputStreamReader(is));
-			String line;
-			Log.e("n", "test 10 ");
-			
-			StringBuffer response = new StringBuffer();
-			while ((line = bufferedReader.readLine()) != null) {
-				response.append(line);
-				response.append('\r');
-			}
-			bufferedReader.close();
-			
-			Log.e("n", "test 11 ");
-			is.close();
-			Log.e("n", "resp: " + response.toString());
-			*/
-			
 		} catch (MalformedURLException e) {
 			Log.e("n", "" + e);
 		} catch (ProtocolException e) {

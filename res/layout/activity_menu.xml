@@ -86,21 +86,23 @@
             android:layout_marginBottom="10dip"
             android:inputType="textMultiLine" />
 
-        <TextView
-            android:id="@+id/textSelectedFile"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:visibility="gone"
-             />
+        
+        <LinearLayout 
+        	android:id="@+id/messageFilesList"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:orientation="vertical" >
+        	
+        </LinearLayout>
+        
+        
         
         <Button
             android:id="@+id/btnMesssageSelectFile"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dip"
-            android:text="Select file" />
-        
+            android:text="Add file" />
         
         <Button
             android:id="@+id/btnMessageSend"

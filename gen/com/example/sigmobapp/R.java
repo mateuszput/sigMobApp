@@ -43,6 +43,7 @@ public final class R {
         public static final int menuLayout=0x7f09000d;
         public static final int menu_settings=0x7f090024;
         public static final int messageBody=0x7f090015;
+        public static final int messageFilesList=0x7f090016;
         public static final int messageLayout=0x7f090013;
         public static final int messageTitle=0x7f090014;
         public static final int messagesTextView=0x7f090008;
@@ -56,7 +57,6 @@ public final class R {
         public static final int surveyTitle=0x7f09001d;
         public static final int surveysListLayout=0x7f090019;
         public static final int surveysListTitle=0x7f09001a;
-        public static final int textSelectedFile=0x7f090016;
         public static final int txtName=0x7f09000e;
     }
     public static final class layout {

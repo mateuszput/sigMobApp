@@ -51,7 +51,7 @@ public class CyclicLocationService extends Service {
 	public void onStart(Intent intent, int startId) {
 		// Toast.makeText(this, "My Service Started", Toast.LENGTH_LONG).show();
 		apikey = intent.getStringExtra("apikey");
-		Log.d(TAG, "onStart " + apikey);
+//		Log.d(TAG, "onStart " + apikey);
 
 		// Note: You can start a new thread and use it for long background
 		// processing from here.
@@ -115,7 +115,7 @@ public class CyclicLocationService extends Service {
 								+ "\", \"longitude\":\"" + longitude
 								+ "\", \"latitude\":\"" + latitude + "\"}";
 						
-						Log.e("n", "js: " + jsonToSend);
+//						Log.e("n", "js: " + jsonToSend);
 						sendLocation(apikey, taskNumber, jsonToSend);
 					}
 
@@ -154,9 +154,9 @@ public class CyclicLocationService extends Service {
 			String adress = "/response/" + taskNumber + "/location";
 			restCommunication.doPostNoAnswer(sigmobProperties.getHostAndApi()
 					+ adress, apikey, jsonToSend);
-			Log.e(TAG, "sending to: " + sigmobProperties.getHostAndApi() + adress);
-			Log.d(TAG, "location response ok ");
-			Log.d(TAG, "apikey " + apikey);
+//			Log.e(TAG, "sending to: " + sigmobProperties.getHostAndApi() + adress);
+//			Log.d(TAG, "location response ok ");
+//			Log.d(TAG, "apikey " + apikey);
 		}
 
 		private int getLocationTask() {
