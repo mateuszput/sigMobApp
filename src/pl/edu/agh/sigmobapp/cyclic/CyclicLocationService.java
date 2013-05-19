@@ -25,6 +25,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 public class CyclicLocationService extends Service {
 
@@ -66,6 +67,7 @@ public class CyclicLocationService extends Service {
 		cyclicLocationThread.stop();
 	}
 
+	// w generics Void na String
 	private class CyclicLocationThread extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -117,6 +119,10 @@ public class CyclicLocationService extends Service {
 						
 //						Log.e("n", "js: " + jsonToSend);
 						sendLocation(apikey, taskNumber, jsonToSend);
+						
+						
+						publishProgress();
+//						Toast.makeText(getApplicationContext(), "Location send", Toast.LENGTH_LONG).show();
 					}
 
 				}
@@ -124,7 +130,17 @@ public class CyclicLocationService extends Service {
 			return "stoped";
 
 		}
+
 		
+//		@Override
+//		protected void onProgressUpdate(String... values) {
+//		    if (values != null) {
+//		        for (String value : values) {
+//		            // shows a toast for every value we get
+//		            Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
+//		        }
+//		    }
+//		}
 
 		public void stop() {
 			cyclicLocationThread.cancel(true);
@@ -146,6 +162,9 @@ public class CyclicLocationService extends Service {
 
 		@Override
 		protected void onProgressUpdate(Void... values) {
+			
+			Toast.makeText(getApplicationContext(), "Location send", Toast.LENGTH_LONG).show();
+			
 		}
 
 		private void sendLocation(String apikey, int taskNumber,

@@ -1,6 +1,7 @@
 package pl.edu.agh.sigmobapp;
 
 import pl.edu.agh.sigmobapp.cyclic.CyclicLocationService;
+import pl.edu.agh.sigmobapp.cyclic.CyclicMessageService;
 
 import com.example.sigmobapp.R;
 
@@ -35,8 +36,6 @@ public class CyclicTasksActivity extends Activity{
         boolean cyclicLocationPref = settings.getBoolean("cyclicLocation", false);
         cyclicLocation.setChecked(cyclicLocationPref);
 
-        
-        
         cyclicLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
             	CheckBox cyclicLocation = (CheckBox) findViewById(R.id.cyclicLocation);
@@ -61,6 +60,40 @@ public class CyclicTasksActivity extends Activity{
             	
             }
         });
+        
+        
+        CheckBox cyclicMessage = (CheckBox) findViewById(R.id.cyclicMessage);
+        cyclicMessage.setTextColor(Color.parseColor("#000000"));
+        cyclicMessage.setText("Allow messages from server");
+        
+     // Restore preferences
+        boolean cyclicMessagePref = settings.getBoolean("cyclicMessage", false);
+        cyclicMessage.setChecked(cyclicMessagePref);
+
+        cyclicMessage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+            	CheckBox cyclicMessage = (CheckBox) findViewById(R.id.cyclicMessage);
+//            	Log.e("n", "checked: " + cyclicLocation.isChecked());
+            	
+            	SharedPreferences settings = getSharedPreferences(preferencesFile, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("cyclicMessage", cyclicMessage.isChecked());
+                // Commit the edits!
+                editor.commit();
+                
+            	if(cyclicMessage.isChecked()) {
+            		Intent intent = new Intent(getApplicationContext(), CyclicMessageService.class);
+            		intent.putExtra("apikey", apikey);
+            		startService(intent);
+                 
+            	} else {
+            		stopService(new Intent(getApplicationContext(), CyclicMessageService.class));
+            		
+            	}
+            	
+            }
+        });        
+        
         
         
         Button btnCloseCyclic = (Button) findViewById(R.id.btnCloseCyclic);

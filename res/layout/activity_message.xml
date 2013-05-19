@@ -5,29 +5,30 @@
     android:orientation="vertical" >
     
     
-    <TextView
-            android:id="@+id/cyclicTitle"
+	<TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dip"
+            android:gravity="center"
+            android:text="Server message"
+            android:textSize="25dip" />
+	
+	<TextView android:id="@+id/titleMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="20dip" />
+	
+	<TextView android:id="@+id/bodyMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
             android:textSize="18dip" />
-
-    <CheckBox android:id="@+id/cyclicLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-    
-    <CheckBox android:id="@+id/cyclicMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    
-    
-    <Button android:id="@+id/btnCloseCyclic"
+	
+	<Button android:id="@+id/btnCloseMessage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="close"
             android:layout_marginTop="15dip"/>
-    
+	
 </LinearLayout>
