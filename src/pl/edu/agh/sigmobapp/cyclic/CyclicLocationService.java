@@ -41,24 +41,18 @@ public class CyclicLocationService extends Service {
 
 	@Override
 	public void onCreate() {
-		// Toast.makeText(this, "Congrats! MyService Created",
-		// Toast.LENGTH_LONG).show();
 		sigmobProperties = SigmobProperties.getInstance();
-
 		Log.d(TAG, "onCreate");
 	}
 
 	@Override
 	public void onStart(Intent intent, int startId) {
-		// Toast.makeText(this, "My Service Started", Toast.LENGTH_LONG).show();
 		apikey = intent.getStringExtra("apikey");
-//		Log.d(TAG, "onStart " + apikey);
 
 		// Note: You can start a new thread and use it for long background
 		// processing from here.
 		cyclicLocationThread = new CyclicLocationThread();
 		cyclicLocationThread.execute("start me ");
-
 	}
 
 	@Override
@@ -67,12 +61,13 @@ public class CyclicLocationService extends Service {
 		cyclicLocationThread.stop();
 	}
 
+	
 	// w generics Void na String
 	private class CyclicLocationThread extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected String doInBackground(String... params) {
-			Log.e("n", "do in background ");
+			Log.d("n", "do in background ");
 			while (true) {
 				for (int i = 0; i < 5; i++) {
 					if (isCancelled())
@@ -83,7 +78,7 @@ public class CyclicLocationService extends Service {
 						Log.e("n", "" + e);
 					}
 				}
-
+				
 				if (isCancelled())
 					break;
 
@@ -117,12 +112,8 @@ public class CyclicLocationService extends Service {
 								+ "\", \"longitude\":\"" + longitude
 								+ "\", \"latitude\":\"" + latitude + "\"}";
 						
-//						Log.e("n", "js: " + jsonToSend);
 						sendLocation(apikey, taskNumber, jsonToSend);
-						
-						
 						publishProgress();
-//						Toast.makeText(getApplicationContext(), "Location send", Toast.LENGTH_LONG).show();
 					}
 
 				}
@@ -132,27 +123,12 @@ public class CyclicLocationService extends Service {
 		}
 
 		
-//		@Override
-//		protected void onProgressUpdate(String... values) {
-//		    if (values != null) {
-//		        for (String value : values) {
-//		            // shows a toast for every value we get
-//		            Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
-//		        }
-//		    }
-//		}
-
 		public void stop() {
 			cyclicLocationThread.cancel(true);
-			// running = false;
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			// TextView txt = (TextView) findViewById(R.id.output);
-			// txt.setText("Executed"); // txt.setText(result);
-			// might want to change "executed" for the returned string passed
-			// into onPostExecute() but that is upto you
 			Log.d(TAG, "thread stopped");
 		}
 
@@ -162,8 +138,7 @@ public class CyclicLocationService extends Service {
 
 		@Override
 		protected void onProgressUpdate(Void... values) {
-			
-			Toast.makeText(getApplicationContext(), "Location send", Toast.LENGTH_LONG).show();
+//			Toast.makeText(getApplicationContext(), "Location send", Toast.LENGTH_LONG).show();
 			
 		}
 
@@ -173,9 +148,6 @@ public class CyclicLocationService extends Service {
 			String adress = "/response/" + taskNumber + "/location";
 			restCommunication.doPostNoAnswer(sigmobProperties.getHostAndApi()
 					+ adress, apikey, jsonToSend);
-//			Log.e(TAG, "sending to: " + sigmobProperties.getHostAndApi() + adress);
-//			Log.d(TAG, "location response ok ");
-//			Log.d(TAG, "apikey " + apikey);
 		}
 
 		private int getLocationTask() {

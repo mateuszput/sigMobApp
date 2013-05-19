@@ -22,13 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -38,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private final static String version = "v.0.6 (2013/05/19 22:04)";
+	private final static String version = "v.0.6.1 (2013/05/19 23:29)";
 	
 	private EditText inputName;
 	private EditText inputPassword;
@@ -47,38 +42,11 @@ public class MainActivity extends Activity {
 	private String propertiesFile = "settings_file";
 	
 	
-//	private NotificationManager mNotificationManager;
-	
-	
-//	private void displayNotification(String extra, String contentTitle, String contentText, Class<?> cls, int id) {     
-//        Notification notifyDetails = new Notification(R.drawable.ic_launcher, "New Alert!", System.currentTimeMillis());
-//        Intent intent = new Intent(this, cls);
-//        intent.putExtra("extra", extra);
-//        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        notifyDetails.setLatestEventInfo(getApplicationContext(), contentTitle, contentText, contentIntent);
-//        mNotificationManager.notify(id, notifyDetails);
-//    }
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		 
-//	     int SIMPLE_NOTFICATION_ID_A = 0;
-//	     int SIMPLE_NOTFICATION_ID_B = 1;
-
-//		mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//		displayNotification("Extra for A", "This is A", "Some text for activity A", MessageActivity.class, SIMPLE_NOTFICATION_ID_A);
-//        displayNotification("Extra for B", "This is B", "Some text for activity B", MessageActivity.class, SIMPLE_NOTFICATION_ID_B);
-   
-        
-        
 		Config.context = this;
-		/*
-		StrictMode.ThreadPolicy policy = new StrictMode.
-		ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy(policy); 
-		*/
 		
 		setContentView(R.layout.activity_login);
 		sigmobProperties = SigmobProperties.getInstance();
@@ -208,7 +176,7 @@ public class MainActivity extends Activity {
 				}
 				myApi = objectMapper.readValue(responseJSON.toString(),
 						ApiKey.class);
-				Log.e("n", "" + responseJSON.toString());
+				Log.d("n", "" + responseJSON.toString());
 			} catch (JsonParseException e) {
 				Log.e("n", "" + e);
 			} catch (JsonMappingException e) {

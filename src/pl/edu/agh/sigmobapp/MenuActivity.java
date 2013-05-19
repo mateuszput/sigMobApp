@@ -218,11 +218,8 @@ public class MenuActivity extends Activity {
     
     
     private FileAnswer sendFile(String fileName, File fileHandler){
-//    	Log.e("n", "my file exist");
     	RestCommunication restCommunication = new RestCommunication();
     	JSONObject jsonResponse = restCommunication.doPostFile(sigmobProperties.getHostAndApi() +  "/files", apikey, fileName, fileHandler);
-    	
-//    	Log.e("n", "file id: " + jsonResponse.toString());
     	
     	ObjectMapper objectMapper = new ObjectMapper();
     	FileAnswer fileAnswer = null;
@@ -276,21 +273,17 @@ public class MenuActivity extends Activity {
 				specialMessageAttachment.setType("image");
 				
 				attachments.add(specialMessageAttachment);
-//				Log.e("n", "file: " + currentFile.getName());
 			}
 			specialMessage.setAttachments(attachments);
 			
 			ObjectMapper objectMapper = new ObjectMapper();
 	    	try {
 				String specialMessageJson = objectMapper.writeValueAsString(specialMessage);
-//				Log.e("n", "json: " + specialMessageJson);
 				
 				RestCommunication restCommunication = new RestCommunication();
 				JSONObject responseJSON = restCommunication.doPost(
 						sigmobProperties.getHostAndApi() + "/messages", apikey,
 						specialMessageJson);
-
-//				 Log.e("n", "response: " + responseJSON.toString());
 				 
 			} catch (JsonProcessingException e) {
 				Log.e("n", "" + e);

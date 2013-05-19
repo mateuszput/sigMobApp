@@ -24,8 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -68,7 +66,6 @@ public class CyclicMessageService extends Service {
 	}
 	
 	
-	
 	private class CyclicLocationThread extends AsyncTask<String, Message, String> {
 		Context context;
 		
@@ -100,7 +97,6 @@ public class CyclicMessageService extends Service {
 					String jsonToSend = "{\"messageId\":\"" + taskNumber
 							+ "\", \"status\":\"read\"}";
 
-					// TODO: odkomentowac
 					sendMessageReceived(apikey, taskNumber, jsonToSend);
 					if(message == null){
 						continue;
@@ -129,16 +125,6 @@ public class CyclicMessageService extends Service {
 		}
 
 		
-//		private void displayNotification(String extra, String contentTitle, String contentText, Class<?> cls, int id) {
-//			NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//	        Notification notifyDetails = new Notification(R.drawable.ic_launcher, "New Alert!", System.currentTimeMillis());
-//	        Intent intent = new Intent(context, cls);
-//	        intent.putExtra("extra", extra);
-//	        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//	        notifyDetails.setLatestEventInfo(getApplicationContext(), contentTitle, contentText, contentIntent);
-//	        mNotificationManager.notify(id, notifyDetails);
-//	    }
-		
 		@Override
 		protected void onProgressUpdate(Message... values) {
 			Message message = values[0];
@@ -159,56 +145,6 @@ public class CyclicMessageService extends Service {
 	        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), messageId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	        notifyDetails.setLatestEventInfo(getApplicationContext(), title, body, contentIntent);
 	        mNotificationManager.notify(messageId, notifyDetails);
-	        
-	        
-	        
-	        /*
-			NotificationCompat.Builder mBuilder =
-			        new NotificationCompat.Builder(context)
-			        .setSmallIcon(R.drawable.ic_launcher)
-			        .setContentTitle(title)
-			        .setContentText(body);
-			// Creates an explicit intent for an Activity in your app
-			Intent resultIntent = new Intent(context, MessageActivity.class);
-			resultIntent.putExtra("mTitle", title);
-			resultIntent.putExtra("mBody", body);
-			resultIntent.putExtra("mId", String.valueOf(messageId));
-			
-			resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-			
-			
-			TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-			stackBuilder.addParentStack(MessageActivity.class);
-			
-			// Adds the Intent that starts the Activity to the top of the stack
-			stackBuilder.addNextIntent(resultIntent);
-			
-			
-//			PendingIntent resultPendingIntent =
-//			        PendingIntent.getActivity(
-//			        context,
-//			        0,
-//			        resultIntent,
-//			        PendingIntent.FLAG_UPDATE_CURRENT
-//			);
-
-			
-			PendingIntent resultPendingIntent =
-			        stackBuilder.getPendingIntent(
-			            0,
-			            PendingIntent.FLAG_UPDATE_CURRENT
-			        );
-			
-			
-			
-			mBuilder.setContentIntent(resultPendingIntent);
-			NotificationManager mNotificationManager =
-			    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			// mId allows you to update the notification later on.
-			mNotificationManager.notify(messageId, mBuilder.build());
-			
-			*/
 		}
 		
 

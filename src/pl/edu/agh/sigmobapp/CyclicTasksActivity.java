@@ -39,7 +39,6 @@ public class CyclicTasksActivity extends Activity{
         cyclicLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
             	CheckBox cyclicLocation = (CheckBox) findViewById(R.id.cyclicLocation);
-//            	Log.e("n", "checked: " + cyclicLocation.isChecked());
             	
             	SharedPreferences settings = getSharedPreferences(preferencesFile, 0);
                 SharedPreferences.Editor editor = settings.edit();
@@ -47,7 +46,6 @@ public class CyclicTasksActivity extends Activity{
                 // Commit the edits!
                 editor.commit();
                 
-            	
             	if(cyclicLocation.isChecked()) {
             		Intent intent = new Intent(getApplicationContext(), CyclicLocationService.class);
             		intent.putExtra("apikey", apikey);
@@ -73,7 +71,6 @@ public class CyclicTasksActivity extends Activity{
         cyclicMessage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
             	CheckBox cyclicMessage = (CheckBox) findViewById(R.id.cyclicMessage);
-//            	Log.e("n", "checked: " + cyclicLocation.isChecked());
             	
             	SharedPreferences settings = getSharedPreferences(preferencesFile, 0);
                 SharedPreferences.Editor editor = settings.edit();

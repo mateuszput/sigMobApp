@@ -139,7 +139,7 @@ public class RestCommunication {
 	        wr.close();
 	        
 	        int serverResponseCode = connection.getResponseCode();
-	        Log.e("n", "test: " + serverResponseCode);
+	        Log.d("n", "response code: " + serverResponseCode);
 	        
 		} catch (MalformedURLException e) {
 			Log.e("n", "" + e);
