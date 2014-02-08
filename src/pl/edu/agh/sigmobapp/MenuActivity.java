@@ -166,8 +166,8 @@ public class MenuActivity extends Activity {
             	EditText messageTitle = (EditText) findViewById(R.id.messageTitle);
             	EditText messageBody = (EditText) findViewById(R.id.messageBody);
             	
-            	String titleString = messageTitle.getText().toString().replaceAll("\\W", "");
-            	String messageString = messageBody.getText().toString().replaceAll("\\W", "");
+            	String titleString = messageTitle.getText().toString().trim();
+            	String messageString = messageBody.getText().toString().trim();
             	
             	if (titleString != "" && messageString != "") {
             		SendMessageThread sendMessageThread = new SendMessageThread();

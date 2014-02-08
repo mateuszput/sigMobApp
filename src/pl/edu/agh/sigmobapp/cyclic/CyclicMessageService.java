@@ -138,6 +138,10 @@ public class CyclicMessageService extends Service {
 			
 			NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 	        Notification notifyDetails = new Notification(R.drawable.ic_launcher, "New Alert!", System.currentTimeMillis());
+	        
+	        // Cancel the notification after its selected
+	        notifyDetails.flags |= Notification.FLAG_AUTO_CANCEL;
+	        
 	        Intent intent = new Intent(context, MessageActivity.class);
 	        intent.putExtra("mTitle", title);
 	        intent.putExtra("mBody", body);
